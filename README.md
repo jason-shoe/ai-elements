@@ -122,18 +122,18 @@ AI Elements includes the following components:
 After installing components, you can use them in your React application:
 
 ```tsx
-'use client';
+"use client";
 
-import { useChat } from '@ai-sdk/react';
+import { useChat } from "@ai-sdk/react";
 import {
   Conversation,
   ConversationContent,
-} from '@/components/ai-elements/conversation';
+} from "@/components/ai-elements/conversation";
 import {
   Message,
   MessageContent,
   MessageResponse,
-} from '@/components/ai-elements/message';
+} from "@/components/ai-elements/message";
 
 export default function Chat() {
   const { messages } = useChat();
@@ -189,3 +189,6 @@ If you'd like to contribute to AI Elements, please follow these steps:
 ---
 
 Made with ❤️ by [Vercel](https://vercel.com)
+
+git tag ai-elements-mui@0.1.0
+git push origin ai-elements-mui@0.1.0
