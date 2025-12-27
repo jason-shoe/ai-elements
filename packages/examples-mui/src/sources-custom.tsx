@@ -5,7 +5,7 @@ import {
   Sources,
   SourcesContent,
   SourcesTrigger,
-} from "@repo/elements-mui/sources";
+} from "ai-elements-mui/sources";
 import { ChevronDownIcon, ExternalLinkIcon } from "lucide-react";
 
 const sources = [

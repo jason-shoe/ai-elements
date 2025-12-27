@@ -8,14 +8,14 @@ import {
   ConfirmationRejected,
   ConfirmationRequest,
   ConfirmationTitle,
-} from "@repo/elements-mui/confirmation";
+} from "ai-elements-mui/confirmation";
 import {
   Tool,
   ToolContent,
   ToolHeader,
   ToolInput,
   ToolOutput,
-} from "@repo/elements-mui/tool";
+} from "ai-elements-mui/tool";
 import type { ToolUIPart } from "ai";
 import { CheckIcon, XIcon } from "lucide-react";
 import { nanoid } from "nanoid";

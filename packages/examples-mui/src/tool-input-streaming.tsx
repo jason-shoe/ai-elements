@@ -1,6 +1,6 @@
 "use client";
 
-import { Tool, ToolContent, ToolHeader, ToolInput } from "@repo/elements-mui/tool";
+import { Tool, ToolContent, ToolHeader, ToolInput } from "ai-elements-mui/tool";
 import { nanoid } from "nanoid";
 
 const toolCall = {

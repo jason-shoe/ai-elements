@@ -4,7 +4,7 @@ import {
   Reasoning,
   ReasoningContent,
   ReasoningTrigger,
-} from "@repo/elements-mui/reasoning";
+} from "ai-elements-mui/reasoning";
 import { useCallback, useEffect, useState } from "react";
 
 const reasoningSteps = [

@@ -154,8 +154,8 @@ export const InlineCitationCarouselIndex = ({
       "flex flex-1 items-center justify-end px-3 py-1 text-muted-foreground text-xs",
       className
     )}
-    count={count}
-    current={current}
+    data-count={count}
+    data-current={current}
     {...props}
   >
     {children ?? `${current}/${count}`}

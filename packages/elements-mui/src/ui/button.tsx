@@ -66,6 +66,10 @@ export const Button = memo<ButtonProps>(
     ...props
   }) => {
     const mapped = mapVariant(variant);
+    const mergedSx =
+      sx != null
+        ? ([sizeSx[size], sx] as MuiButtonProps["sx"])
+        : (sizeSx[size] as MuiButtonProps["sx"]);
 
     return (
       <MuiButton
@@ -78,7 +82,7 @@ export const Button = memo<ButtonProps>(
         color={mapped.color}
         disableElevation={disableElevation}
         disableRipple={disableRipple}
-        sx={[sizeSx[size], sx]}
+        sx={mergedSx}
         variant={mapped.variant}
         {...props}
       />

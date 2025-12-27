@@ -108,7 +108,7 @@ export function DropdownMenuTrigger({
     ...props,
     className,
     "data-slot": "dropdown-menu-trigger",
-    "aria-haspopup": "menu",
+    "aria-haspopup": "menu" as const,
     "aria-expanded": open || undefined,
     onClick: handleClick,
   };

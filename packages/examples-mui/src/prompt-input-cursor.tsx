@@ -27,7 +27,7 @@ import {
   PromptInputTabLabel,
   PromptInputTextarea,
   PromptInputTools,
-} from "@repo/elements-mui/prompt-input";
+} from "ai-elements-mui/prompt-input";
 import {
   ModelSelector,
   ModelSelectorContent,
@@ -40,7 +40,7 @@ import {
   ModelSelectorLogoGroup,
   ModelSelectorName,
   ModelSelectorTrigger,
-} from "@repo/elements-mui/model-selector";
+} from "ai-elements-mui/model-selector";
 import IconButton from "@mui/material/IconButton";
 import {
   AtSignIcon,

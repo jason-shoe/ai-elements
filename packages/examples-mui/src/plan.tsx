@@ -9,7 +9,7 @@ import {
   PlanHeader,
   PlanTitle,
   PlanTrigger,
-} from "@repo/elements-mui/plan";
+} from "ai-elements-mui/plan";
 import Button from "@mui/material/Button";
 import { FileText } from "lucide-react";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { Canvas } from "@repo/elements-mui/canvas";
-import { Edge } from "@repo/elements-mui/edge";
+import { Canvas } from "ai-elements-mui/canvas";
+import { Edge } from "ai-elements-mui/edge";
 import {
   Node,
   NodeContent,
@@ -9,7 +9,7 @@ import {
   NodeFooter,
   NodeHeader,
   NodeTitle,
-} from "@repo/elements-mui/node";
+} from "ai-elements-mui/node";
 import { nanoid } from "nanoid";
 
 const nodeIds = {

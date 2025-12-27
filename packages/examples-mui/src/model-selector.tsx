@@ -12,7 +12,7 @@ import {
   ModelSelectorLogoGroup,
   ModelSelectorName,
   ModelSelectorTrigger,
-} from "@repo/elements-mui/model-selector";
+} from "ai-elements-mui/model-selector";
 import Button from "@mui/material/Button";
 import { CheckIcon } from "lucide-react";
 import { useState } from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { CodeBlock, CodeBlockCopyButton } from "@repo/elements-mui/code-block";
+import { CodeBlock, CodeBlockCopyButton } from "ai-elements-mui/code-block";
 
 const code = `function MyComponent(props) {
   return (

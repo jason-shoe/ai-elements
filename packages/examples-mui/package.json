@@ -11,7 +11,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.4",
-    "@repo/elements-mui": "workspace:*",
+    "ai-elements-mui": "workspace:*",
     "@xyflow/react": "^12.9.2",
     "ai": "^5.0.108",
     "clsx": "^2.1.1",
