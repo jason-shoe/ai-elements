@@ -2,6 +2,7 @@
 
 import MuiChip, { type ChipProps as MuiChipProps } from "@mui/material/Chip";
 import type { SxProps, Theme } from "@mui/material/styles";
+import type { ReactNode } from "react";
 import { memo } from "react";
 import { cn } from "./cn";
 
@@ -9,10 +10,10 @@ export type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
 
 export type BadgeProps = Omit<
   MuiChipProps,
-  "variant" | "color" | "size" | "label"
+  "variant" | "color" | "size" | "label" | "children"
 > & {
   variant?: BadgeVariant;
-  children?: MuiChipProps["label"];
+  children?: ReactNode;
 };
 
 const variantClassName: Record<BadgeVariant, string> = {
@@ -40,8 +41,12 @@ const badgeSx: SxProps<Theme> = {
 };
 
 export const Badge = memo<BadgeProps>(
-  ({ className, variant = "default", children, ...props }) => (
-    <MuiChip
+  ({ className, variant = "default", children, ...props }) => {
+    const mergedSx =
+      props.sx != null ? ([badgeSx, props.sx] as MuiChipProps["sx"]) : badgeSx;
+
+    return (
+      <MuiChip
       className={cn(
         "inline-flex items-center justify-center overflow-hidden",
         variantClassName[variant],
@@ -49,11 +54,12 @@ export const Badge = memo<BadgeProps>(
       )}
       label={<span className="inline-flex items-center gap-1">{children}</span>}
       size="small"
-      sx={[badgeSx, props.sx]}
+      sx={mergedSx}
       variant={variant === "outline" ? "outlined" : "filled"}
       {...props}
     />
-  )
+    );
+  }
 );
 
 Badge.displayName = "Badge";

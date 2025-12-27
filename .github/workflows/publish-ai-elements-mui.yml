@@ -1,0 +1,40 @@
+name: Publish ai-elements-mui
+
+on:
+  push:
+    tags:
+      - "ai-elements-mui@*"
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install Dependencies
+        run: pnpm i
+
+      - name: Build Package
+        run: pnpm --filter ai-elements-mui build
+
+      - name: Publish
+        run: pnpm --filter ai-elements-mui publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+

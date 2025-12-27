@@ -15,7 +15,7 @@ import {
   MessageContent,
   MessageResponse,
   MessageToolbar,
-} from "@repo/elements-mui/message";
+} from "ai-elements-mui/message";
 import {
   CopyIcon,
   RefreshCcwIcon,

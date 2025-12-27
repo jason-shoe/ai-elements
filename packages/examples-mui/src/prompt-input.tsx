@@ -12,7 +12,7 @@ import {
   ModelSelectorLogoGroup,
   ModelSelectorName,
   ModelSelectorTrigger,
-} from "@repo/elements-mui/model-selector";
+} from "ai-elements-mui/model-selector";
 import {
   PromptInput,
   PromptInputActionAddAttachments,
@@ -31,7 +31,7 @@ import {
   PromptInputTextarea,
   PromptInputTools,
   usePromptInputController,
-} from "@repo/elements-mui/prompt-input";
+} from "ai-elements-mui/prompt-input";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { CheckIcon, GlobeIcon } from "lucide-react";

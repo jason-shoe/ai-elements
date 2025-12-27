@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { ElementsMuiThemeProvider } from "@repo/elements-mui/theme-provider";
+import { ElementsMuiThemeProvider } from "ai-elements-mui/theme-provider";
 import {
   ResizableHandle,
   ResizablePanel,

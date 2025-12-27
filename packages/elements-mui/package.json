@@ -1,21 +1,51 @@
 {
-  "name": "@repo/elements-mui",
+  "name": "ai-elements-mui",
   "description": "AI components including message, conversation, input, response, suggestion, sources, context, tool and branch components for building chat interfaces.",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js"
+    },
+    "./ui/*": {
+      "types": "./dist/ui/*.d.ts",
+      "import": "./dist/ui/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf dist",
     "test": "vitest run",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage"
   },
-  "exports": {
-    "./*": "./src/*.tsx"
+  "peerDependencies": {
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
+    "@mui/material": "^7.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "dependencies": {
     "@radix-ui/react-use-controllable-state": "^1.2.2",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/material": "^7.3.4",
     "@xyflow/react": "^12.9.2",
     "ai": "^5.0.108",
     "class-variance-authority": "^0.7.1",
@@ -23,8 +53,6 @@
     "lucide-react": "^0.552.0",
     "motion": "^12.23.24",
     "nanoid": "^5.1.6",
-    "react": "19.2.1",
-    "react-dom": "19.2.1",
     "shiki": "3.15.0",
     "streamdown": "^1.6.10",
     "tailwind-merge": "^3.3.1",
@@ -38,11 +66,17 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/react": "19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "@vitest/browser": "^4.0.7",
     "@vitest/browser-playwright": "^4.0.7",
     "@vitest/coverage-v8": "^4.0.14",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.4",
     "playwright": "^1.57.0",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.7",
     "vitest-fail-on-console": "^0.10.1"

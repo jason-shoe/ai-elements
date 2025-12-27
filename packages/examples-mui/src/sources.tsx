@@ -5,7 +5,7 @@ import {
   Sources,
   SourcesContent,
   SourcesTrigger,
-} from "@repo/elements-mui/sources";
+} from "ai-elements-mui/sources";
 
 const sources = [
   { href: "https://stripe.com/docs/api", title: "Stripe API Documentation" },

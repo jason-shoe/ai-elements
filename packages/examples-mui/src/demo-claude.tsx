@@ -7,13 +7,13 @@ import {
   MessageBranchPage,
   MessageBranchPrevious,
   MessageBranchSelector,
-} from "@repo/elements-mui/message";
+} from "ai-elements-mui/message";
 import {
   Conversation,
   ConversationContent,
   ConversationScrollButton,
-} from "@repo/elements-mui/conversation";
-import { Message, MessageContent } from "@repo/elements-mui/message";
+} from "ai-elements-mui/conversation";
+import { Message, MessageContent } from "ai-elements-mui/message";
 import {
   PromptInput,
   PromptInputButton,
@@ -22,7 +22,7 @@ import {
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputTools,
-} from "@repo/elements-mui/prompt-input";
+} from "ai-elements-mui/prompt-input";
 import {
   ModelSelector,
   ModelSelectorContent,
@@ -35,19 +35,19 @@ import {
   ModelSelectorLogoGroup,
   ModelSelectorName,
   ModelSelectorTrigger,
-} from "@repo/elements-mui/model-selector";
+} from "ai-elements-mui/model-selector";
 import {
   Reasoning,
   ReasoningContent,
   ReasoningTrigger,
-} from "@repo/elements-mui/reasoning";
-import { MessageResponse } from "@repo/elements-mui/message";
+} from "ai-elements-mui/reasoning";
+import { MessageResponse } from "ai-elements-mui/message";
 import {
   Source,
   Sources,
   SourcesContent,
   SourcesTrigger,
-} from "@repo/elements-mui/sources";
+} from "ai-elements-mui/sources";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import type { ToolUIPart } from "ai";

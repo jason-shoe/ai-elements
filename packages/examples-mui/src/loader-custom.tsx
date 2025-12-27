@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader } from "@repo/elements-mui/loader";
+import { Loader } from "ai-elements-mui/loader";
 
 const Example = () => (
   <div className="grid grid-cols-2 gap-6 p-8 md:grid-cols-4">

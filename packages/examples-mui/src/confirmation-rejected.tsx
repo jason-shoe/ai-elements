@@ -6,7 +6,7 @@ import {
   ConfirmationRejected,
   ConfirmationRequest,
   ConfirmationTitle,
-} from "@repo/elements-mui/confirmation";
+} from "ai-elements-mui/confirmation";
 import { CheckIcon, XIcon } from "lucide-react";
 import { nanoid } from "nanoid";
 

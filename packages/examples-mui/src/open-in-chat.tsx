@@ -10,7 +10,7 @@ import {
   OpenInT3,
   OpenInTrigger,
   OpenInv0,
-} from "@repo/elements-mui/open-in-chat";
+} from "ai-elements-mui/open-in-chat";
 
 const Example = () => {
   const sampleQuery = "How can I implement authentication in Next.js?";

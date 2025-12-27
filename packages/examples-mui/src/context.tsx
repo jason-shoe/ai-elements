@@ -11,7 +11,7 @@ import {
   ContextOutputUsage,
   ContextReasoningUsage,
   ContextTrigger,
-} from "@repo/elements-mui/context";
+} from "ai-elements-mui/context";
 
 const Example = () => (
   <div className="flex items-center justify-center p-8">
