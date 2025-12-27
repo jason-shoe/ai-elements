@@ -1,6 +1,7 @@
 "use client";
 
 import MuiButton, { type ButtonProps as MuiButtonProps } from "@mui/material/Button";
+import type { SxProps, Theme } from "@mui/material/styles";
 import { memo } from "react";
 import { cn } from "./cn";
 
@@ -45,6 +46,15 @@ const sizeClasses: Record<ButtonSize, string> = {
   "icon-lg": "h-10 min-w-0 w-10 px-0",
 };
 
+const sizeSx: Record<ButtonSize, SxProps<Theme>> = {
+  default: { minWidth: 0, height: 36, px: 2, py: 1, textTransform: "none" },
+  sm: { minWidth: 0, height: 32, px: 1.5, py: 0, textTransform: "none" },
+  lg: { minWidth: 0, height: 40, px: 3, py: 0, textTransform: "none" },
+  icon: { minWidth: 0, width: 36, height: 36, p: 0, textTransform: "none" },
+  "icon-sm": { minWidth: 0, width: 32, height: 32, p: 0, textTransform: "none" },
+  "icon-lg": { minWidth: 0, width: 40, height: 40, p: 0, textTransform: "none" },
+};
+
 export const Button = memo<ButtonProps>(
   ({
     className,
@@ -52,6 +62,7 @@ export const Button = memo<ButtonProps>(
     size = "default",
     disableElevation = true,
     disableRipple = true,
+    sx,
     ...props
   }) => {
     const mapped = mapVariant(variant);
@@ -67,6 +78,7 @@ export const Button = memo<ButtonProps>(
         color={mapped.color}
         disableElevation={disableElevation}
         disableRipple={disableRipple}
+        sx={[sizeSx[size], sx]}
         variant={mapped.variant}
         {...props}
       />
