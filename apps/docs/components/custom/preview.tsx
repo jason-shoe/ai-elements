@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { ElementsMuiThemeProvider } from "@repo/elements-mui/theme-provider";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -93,7 +94,9 @@ export const Preview = async ({ path, className }: ComponentPreviewProps) => {
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={100}>
             <div className={cn("h-[600px] overflow-auto p-4", className)}>
-              <MuiComponent />
+              <ElementsMuiThemeProvider>
+                <MuiComponent />
+              </ElementsMuiThemeProvider>
             </div>
           </ResizablePanel>
           <ResizableHandle
