@@ -1,15 +1,11 @@
 "use client";
 
-import { Button } from "@repo/shadcn-ui/components/ui/button";
-import { Separator } from "@repo/shadcn-ui/components/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@repo/shadcn-ui/components/ui/tooltip";
-import { cn } from "@repo/shadcn-ui/lib/utils";
+import Divider from "@mui/material/Divider";
+import MuiTooltip from "@mui/material/Tooltip";
 import { BookmarkIcon, type LucideProps } from "lucide-react";
 import type { ComponentProps, HTMLAttributes } from "react";
+import { Button } from "./ui/button";
+import { cn } from "./ui/cn";
 
 export type CheckpointProps = HTMLAttributes<HTMLDivElement>;
 
@@ -23,7 +19,7 @@ export const Checkpoint = ({
     {...props}
   >
     {children}
-    <Separator />
+    <Divider flexItem orientation="vertical" />
   </div>
 );
 
@@ -51,18 +47,27 @@ export const CheckpointTrigger = ({
   ...props
 }: CheckpointTriggerProps) =>
   tooltip ? (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button size={size} type="button" variant={variant} {...props}>
+    <MuiTooltip placement="bottom-start" title={tooltip}>
+      <span>
+        <Button
+          className={cn(className)}
+          size={size}
+          type="button"
+          variant={variant}
+          {...props}
+        >
           {children}
         </Button>
-      </TooltipTrigger>
-      <TooltipContent align="start" side="bottom">
-        {tooltip}
-      </TooltipContent>
-    </Tooltip>
+      </span>
+    </MuiTooltip>
   ) : (
-    <Button size={size} type="button" variant={variant} {...props}>
+    <Button
+      className={cn(className)}
+      size={size}
+      type="button"
+      variant={variant}
+      {...props}
+    >
       {children}
     </Button>
   );

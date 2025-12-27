@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "@repo/shadcn-ui/components/ui/button";
-import { cn } from "@repo/shadcn-ui/lib/utils";
 import { CheckIcon, CopyIcon } from "lucide-react";
 import {
   type ComponentProps,
@@ -13,6 +11,8 @@ import {
   useState,
 } from "react";
 import { type BundledLanguage, codeToHtml, type ShikiTransformer } from "shiki";
+import { Button } from "./ui/button";
+import { cn } from "./ui/cn";
 
 type CodeBlockProps = HTMLAttributes<HTMLDivElement> & {
   code: string;

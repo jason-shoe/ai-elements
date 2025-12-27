@@ -7,7 +7,7 @@ import {
   TaskItem,
   TaskItemFile,
   TaskTrigger,
-} from "@repo/elements/task";
+} from "@repo/elements-mui/task";
 import { nanoid } from "nanoid";
 import type { ReactNode } from "react";
 

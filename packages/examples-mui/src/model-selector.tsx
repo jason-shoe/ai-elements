@@ -12,8 +12,8 @@ import {
   ModelSelectorLogoGroup,
   ModelSelectorName,
   ModelSelectorTrigger,
-} from "@repo/elements/model-selector";
-import { Button } from "@repo/shadcn-ui/components/ui/button";
+} from "@repo/elements-mui/model-selector";
+import Button from "@mui/material/Button";
 import { CheckIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -292,7 +292,7 @@ const Example = () => {
     <div className="flex size-full items-center justify-center p-8">
       <ModelSelector onOpenChange={setOpen} open={open}>
         <ModelSelectorTrigger asChild>
-          <Button className="w-[200px] justify-between" variant="outline">
+          <Button className="w-[200px] justify-between" variant="outlined">
             {selectedModelData?.chefSlug && (
               <ModelSelectorLogo provider={selectedModelData.chefSlug} />
             )}

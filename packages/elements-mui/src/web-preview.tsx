@@ -1,22 +1,17 @@
 "use client";
 
-import { Button } from "@repo/shadcn-ui/components/ui/button";
+import MuiTooltip from "@mui/material/Tooltip";
+import { ChevronDownIcon } from "lucide-react";
+import type { ComponentProps, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import { cn } from "./ui/cn";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@repo/shadcn-ui/components/ui/collapsible";
-import { Input } from "@repo/shadcn-ui/components/ui/input";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@repo/shadcn-ui/components/ui/tooltip";
-import { cn } from "@repo/shadcn-ui/lib/utils";
-import { ChevronDownIcon } from "lucide-react";
-import type { ComponentProps, ReactNode } from "react";
-import { createContext, useContext, useEffect, useState } from "react";
+} from "./ui/collapsible";
+import { Input } from "./ui/input";
 
 export type WebPreviewContextValue = {
   url: string;
@@ -103,25 +98,21 @@ export const WebPreviewNavigationButton = ({
   children,
   ...props
 }: WebPreviewNavigationButtonProps) => (
-  <TooltipProvider>
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button
-          className="h-8 w-8 p-0 hover:text-foreground"
-          disabled={disabled}
-          onClick={onClick}
-          size="sm"
-          variant="ghost"
-          {...props}
-        >
-          {children}
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>{tooltip}</p>
-      </TooltipContent>
-    </Tooltip>
-  </TooltipProvider>
+  <MuiTooltip title={tooltip ?? ""}>
+    <span>
+      <Button
+        className="h-8 w-8 min-w-0 p-0 hover:text-foreground"
+        disabled={disabled}
+        onClick={onClick}
+        size="icon-sm"
+        type="button"
+        variant="ghost"
+        {...props}
+      >
+        {children}
+      </Button>
+    </span>
+  </MuiTooltip>
 );
 
 export type WebPreviewUrlProps = ComponentProps<typeof Input>;

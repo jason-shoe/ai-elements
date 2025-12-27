@@ -4,13 +4,13 @@ import {
   Checkpoint,
   CheckpointIcon,
   CheckpointTrigger,
-} from "@repo/elements/checkpoint";
-import { Conversation, ConversationContent } from "@repo/elements/conversation";
+} from "@repo/elements-mui/checkpoint";
+import { Conversation, ConversationContent } from "@repo/elements-mui/conversation";
 import {
   Message,
   MessageContent,
   MessageResponse,
-} from "@repo/elements/message";
+} from "@repo/elements-mui/message";
 import { nanoid } from "nanoid";
 import { Fragment, useState } from "react";
 

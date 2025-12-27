@@ -7,13 +7,13 @@ import {
   MessageBranchPage,
   MessageBranchPrevious,
   MessageBranchSelector,
-} from "@repo/elements/message";
+} from "@repo/elements-mui/message";
 import {
   Conversation,
   ConversationContent,
   ConversationScrollButton,
-} from "@repo/elements/conversation";
-import { Message, MessageContent } from "@repo/elements/message";
+} from "@repo/elements-mui/conversation";
+import { Message, MessageContent } from "@repo/elements-mui/message";
 import {
   PromptInput,
   PromptInputButton,
@@ -21,28 +21,24 @@ import {
   type PromptInputMessage,
   PromptInputTextarea,
   PromptInputTools,
-} from "@repo/elements/prompt-input";
+} from "@repo/elements-mui/prompt-input";
 import {
   Reasoning,
   ReasoningContent,
   ReasoningTrigger,
-} from "@repo/elements/reasoning";
-import { MessageResponse } from "@repo/elements/message";
+} from "@repo/elements-mui/reasoning";
+import { MessageResponse } from "@repo/elements-mui/message";
 import {
   Source,
   Sources,
   SourcesContent,
   SourcesTrigger,
-} from "@repo/elements/sources";
-import { Suggestion, Suggestions } from "@repo/elements/suggestion";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@repo/shadcn-ui/components/ui/dropdown-menu";
-import { cn } from "@repo/shadcn-ui/lib/utils";
+} from "@repo/elements-mui/sources";
+import { Suggestion, Suggestions } from "@repo/elements-mui/suggestion";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import type { ToolUIPart } from "ai";
+import { cn } from "./cn";
 import {
   AudioWaveformIcon,
   BarChartIcon,
@@ -294,6 +290,7 @@ const mockMessageResponses = [
 
 const Example = () => {
   const [text, setText] = useState<string>("");
+  const [attachAnchorEl, setAttachAnchorEl] = useState<HTMLElement | null>(null);
   const [useWebSearch, setUseWebSearch] = useState<boolean>(false);
   const [useMicrophone, setUseMicrophone] = useState<boolean>(false);
   const [status, setStatus] = useState<
@@ -638,43 +635,58 @@ const Example = () => {
           />
           <PromptInputFooter className="p-2.5">
             <PromptInputTools>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <PromptInputButton
-                    className="!rounded-full border font-medium"
-                    variant="outline"
-                  >
-                    <PaperclipIcon size={16} />
-                    <span>Attach</span>
-                  </PromptInputButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start">
-                  <DropdownMenuItem
-                    onClick={() => handleFileAction("upload-file")}
-                  >
-                    <FileIcon className="mr-2" size={16} />
-                    Upload file
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handleFileAction("upload-photo")}
-                  >
-                    <ImageIcon className="mr-2" size={16} />
-                    Upload photo
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handleFileAction("take-screenshot")}
-                  >
-                    <ScreenShareIcon className="mr-2" size={16} />
-                    Take screenshot
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handleFileAction("take-photo")}
-                  >
-                    <CameraIcon className="mr-2" size={16} />
-                    Take photo
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <PromptInputButton
+                aria-haspopup="menu"
+                className="!rounded-full border font-medium"
+                onClick={(e) => setAttachAnchorEl(e.currentTarget)}
+                type="button"
+                variant="outline"
+              >
+                <PaperclipIcon size={16} />
+                <span>Attach</span>
+              </PromptInputButton>
+              <Menu
+                anchorEl={attachAnchorEl}
+                onClose={() => setAttachAnchorEl(null)}
+                open={Boolean(attachAnchorEl)}
+              >
+                <MenuItem
+                  onClick={() => {
+                    setAttachAnchorEl(null);
+                    handleFileAction("upload-file");
+                  }}
+                >
+                  <FileIcon className="mr-2" size={16} />
+                  Upload file
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setAttachAnchorEl(null);
+                    handleFileAction("upload-photo");
+                  }}
+                >
+                  <ImageIcon className="mr-2" size={16} />
+                  Upload photo
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setAttachAnchorEl(null);
+                    handleFileAction("take-screenshot");
+                  }}
+                >
+                  <ScreenShareIcon className="mr-2" size={16} />
+                  Take screenshot
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setAttachAnchorEl(null);
+                    handleFileAction("take-photo");
+                  }}
+                >
+                  <CameraIcon className="mr-2" size={16} />
+                  Take photo
+                </MenuItem>
+              </Menu>
               <PromptInputButton
                 className="rounded-full border font-medium"
                 onClick={() => setUseWebSearch(!useWebSearch)}

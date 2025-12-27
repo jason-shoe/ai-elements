@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader } from "@repo/elements/loader";
+import { Loader } from "@repo/elements-mui/loader";
 
 const Example = () => (
   <div className="flex items-center gap-8 p-8">

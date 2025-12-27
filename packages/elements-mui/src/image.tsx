@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/nursery/useImageSize: "size will be handled by props" */
 
-import { cn } from "@repo/shadcn-ui/lib/utils";
 import type { Experimental_GeneratedImage } from "ai";
+import { cn } from "./ui/cn";
 
 export type ImageProps = Experimental_GeneratedImage & {
   className?: string;

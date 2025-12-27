@@ -1,6 +1,6 @@
 "use client";
 
-import { Shimmer } from "@repo/elements/shimmer";
+import { Shimmer } from "@repo/elements-mui/shimmer";
 
 const Example = () => (
   <div className="flex flex-col gap-6 p-8">

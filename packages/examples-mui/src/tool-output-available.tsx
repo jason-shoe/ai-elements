@@ -1,13 +1,13 @@
 "use client";
 
-import { CodeBlock } from "@repo/elements/code-block";
+import { CodeBlock } from "@repo/elements-mui/code-block";
 import {
   Tool,
   ToolContent,
   ToolHeader,
   ToolInput,
   ToolOutput,
-} from "@repo/elements/tool";
+} from "@repo/elements-mui/tool";
 import type { ToolUIPart } from "ai";
 import { nanoid } from "nanoid";
 

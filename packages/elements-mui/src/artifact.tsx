@@ -1,15 +1,10 @@
 "use client";
 
-import { Button } from "@repo/shadcn-ui/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@repo/shadcn-ui/components/ui/tooltip";
-import { cn } from "@repo/shadcn-ui/lib/utils";
+import MuiTooltip from "@mui/material/Tooltip";
 import { type LucideIcon, XIcon } from "lucide-react";
 import type { ComponentProps, HTMLAttributes } from "react";
+import { Button } from "./ui/button";
+import { cn } from "./ui/cn";
 
 export type ArtifactProps = HTMLAttributes<HTMLDivElement>;
 
@@ -123,14 +118,9 @@ export const ArtifactAction = ({
 
   if (tooltip) {
     return (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>{button}</TooltipTrigger>
-          <TooltipContent>
-            <p>{tooltip}</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <MuiTooltip title={tooltip}>
+        <span>{button}</span>
+      </MuiTooltip>
     );
   }
 

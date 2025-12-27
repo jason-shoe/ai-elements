@@ -1,6 +1,6 @@
 "use client";
 
-import { Image } from "@repo/elements/image";
+import { Image } from "@repo/elements-mui/image";
 
 const exampleImage = {
   base64:

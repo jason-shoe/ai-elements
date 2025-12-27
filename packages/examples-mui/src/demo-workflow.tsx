@@ -1,8 +1,8 @@
 "use client";
 
-import { Canvas } from "@repo/elements/canvas";
-import { Connection } from "@repo/elements/connection";
-import { Edge } from "@repo/elements/edge";
+import { Canvas } from "@repo/elements-mui/canvas";
+import { Connection } from "@repo/elements-mui/connection";
+import { Edge } from "@repo/elements-mui/edge";
 import {
   Node,
   NodeContent,
@@ -10,7 +10,7 @@ import {
   NodeFooter,
   NodeHeader,
   NodeTitle,
-} from "@repo/elements/node";
+} from "@repo/elements-mui/node";
 
 const nodeIds = {
   start: "start",

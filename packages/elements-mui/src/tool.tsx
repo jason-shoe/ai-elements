@@ -1,12 +1,5 @@
 "use client";
 
-import { Badge } from "@repo/shadcn-ui/components/ui/badge";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@repo/shadcn-ui/components/ui/collapsible";
-import { cn } from "@repo/shadcn-ui/lib/utils";
 import type { ToolUIPart } from "ai";
 import {
   CheckCircleIcon,
@@ -19,6 +12,13 @@ import {
 import type { ComponentProps, ReactNode } from "react";
 import { isValidElement } from "react";
 import { CodeBlock } from "./code-block";
+import { Badge } from "./ui/badge";
+import { cn } from "./ui/cn";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible";
 
 export type ToolProps = ComponentProps<typeof Collapsible>;
 

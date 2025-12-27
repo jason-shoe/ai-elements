@@ -27,7 +27,7 @@ import {
   PromptInputTabLabel,
   PromptInputTextarea,
   PromptInputTools,
-} from "@repo/elements/prompt-input";
+} from "@repo/elements-mui/prompt-input";
 import {
   ModelSelector,
   ModelSelectorContent,
@@ -40,8 +40,8 @@ import {
   ModelSelectorLogoGroup,
   ModelSelectorName,
   ModelSelectorTrigger,
-} from "@repo/elements/model-selector";
-import { Button } from "@repo/shadcn-ui/components/ui/button";
+} from "@repo/elements-mui/model-selector";
+import IconButton from "@mui/material/IconButton";
 import {
   AtSignIcon,
   CheckIcon,
@@ -337,9 +337,9 @@ const Example = () => {
               </ModelSelector>
             </PromptInputTools>
             <div className="flex items-center gap-2">
-              <Button size="icon-sm" variant="ghost">
+              <IconButton aria-label="Add image" size="small" type="button">
                 <ImageIcon className="text-muted-foreground" size={16} />
-              </Button>
+              </IconButton>
               <PromptInputSubmit className="!h-8" status={status} />
             </div>
           </PromptInputFooter>
