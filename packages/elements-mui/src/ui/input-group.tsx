@@ -134,7 +134,8 @@ export const InputGroupTextarea = forwardRef<
 >(({ className, ...props }, ref) => (
   <TextareaAutosize
     className={cn(
-      "flex-1 resize-none rounded-none border-0 bg-transparent px-3 py-3 text-sm shadow-none outline-none focus-visible:ring-0 dark:bg-transparent",
+      "flex-1 resize-none rounded-none border-0 bg-transparent px-3 py-3 text-left text-sm shadow-none outline-none focus-visible:ring-0 dark:bg-transparent",
+      "whitespace-pre-wrap [overflow-wrap:anywhere]",
       className
     )}
     data-slot="input-group-control"
