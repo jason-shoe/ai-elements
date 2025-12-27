@@ -17,7 +17,7 @@ import {
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputTools,
-} from "@repo/elements/prompt-input";
+} from "@repo/elements-mui/prompt-input";
 import {
   ModelSelector,
   ModelSelectorContent,
@@ -30,7 +30,7 @@ import {
   ModelSelectorLogoGroup,
   ModelSelectorName,
   ModelSelectorTrigger,
-} from "@repo/elements/model-selector";
+} from "@repo/elements-mui/model-selector";
 import {
   Queue,
   QueueItem,
@@ -42,7 +42,7 @@ import {
   QueueSection,
   QueueSectionContent,
   type QueueTodo,
-} from "@repo/elements/queue";
+} from "@repo/elements-mui/queue";
 import { CheckIcon, GlobeIcon, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
 

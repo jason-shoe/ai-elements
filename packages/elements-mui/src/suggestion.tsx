@@ -1,12 +1,9 @@
 "use client";
 
-import { Button } from "@repo/shadcn-ui/components/ui/button";
-import {
-  ScrollArea,
-  ScrollBar,
-} from "@repo/shadcn-ui/components/ui/scroll-area";
-import { cn } from "@repo/shadcn-ui/lib/utils";
 import type { ComponentProps } from "react";
+import Chip from "@mui/material/Chip";
+import { cn } from "./ui/cn";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
 export type SuggestionsProps = ComponentProps<typeof ScrollArea>;
 
@@ -23,7 +20,7 @@ export const Suggestions = ({
   </ScrollArea>
 );
 
-export type SuggestionProps = Omit<ComponentProps<typeof Button>, "onClick"> & {
+export type SuggestionProps = Omit<ComponentProps<typeof Chip>, "onClick"> & {
   suggestion: string;
   onClick?: (suggestion: string) => void;
 };
@@ -32,8 +29,8 @@ export const Suggestion = ({
   suggestion,
   onClick,
   className,
-  variant = "outline",
-  size = "sm",
+  variant = "outlined",
+  size = "small",
   children,
   ...props
 }: SuggestionProps) => {
@@ -42,15 +39,14 @@ export const Suggestion = ({
   };
 
   return (
-    <Button
-      className={cn("cursor-pointer rounded-full px-4", className)}
+    <Chip
+      className={cn("cursor-pointer", className)}
+      disabled={props.disabled}
+      label={children ?? suggestion}
       onClick={handleClick}
       size={size}
-      type="button"
       variant={variant}
       {...props}
-    >
-      {children || suggestion}
-    </Button>
+    />
   );
 };

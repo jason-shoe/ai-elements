@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { ElementsMuiThemeProvider } from "@repo/elements-mui/theme-provider";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -21,56 +22,42 @@ type ComponentPreviewProps = {
 };
 
 export const Preview = async ({ path, className }: ComponentPreviewProps) => {
-  const code = await readFile(
+  const shadcnCode = await readFile(
+    join(process.cwd(), "..", "..", "packages", "examples", "src", `${path}.tsx`),
+    "utf-8"
+  );
+  const muiCode = await readFile(
     join(
       process.cwd(),
       "..",
       "..",
       "packages",
-      "examples",
+      "examples-mui",
       "src",
       `${path}.tsx`
     ),
     "utf-8"
   );
 
-  const Component = await import(`@repo/examples/src/${path}.tsx`).then(
+  const ShadcnComponent = await import(`@repo/examples/src/${path}.tsx`).then(
+    (module) => module.default
+  );
+  const MuiComponent = await import(`@repo/examples-mui/src/${path}.tsx`).then(
     (module) => module.default
   );
 
-  const parsedCode = code
+  const parsedShadcnCode = shadcnCode
     .replace(/@repo\/shadcn-ui\//g, "@/")
     .replace(/@repo\/elements\//g, "@/components/ai-elements/");
 
-  const sourceComponentNames =
-    parsedCode
-      .match(/@\/components\/ai-elements\/([^'"`]+)/g)
-      ?.map((match) => match.replace("@/components/ai-elements/", "")) || [];
-
-  const sourceComponents: { name: string; source: string }[] = [];
-
-  for (const component of sourceComponentNames) {
-    const fileName = component.includes("/")
-      ? `${component}.tsx`
-      : `${component}/index.tsx`;
-
-    try {
-      const source = await readFile(
-        join(process.cwd(), "..", "..", "packages", fileName),
-        "utf-8"
-      );
-
-      if (sourceComponents.some((s) => s.name === component)) {
-        continue;
-      }
-
-      sourceComponents.push({ name: component, source });
-    } catch {
-      // skip packages that fail
-    }
-  }
-
-  const highlightedCode = await codeToHtml(parsedCode, {
+  const highlightedShadcnCode = await codeToHtml(parsedShadcnCode, {
+    lang: "tsx",
+    themes: {
+      light: "github-light",
+      dark: "github-dark",
+    },
+  });
+  const highlightedMuiCode = await codeToHtml(muiCode, {
     lang: "tsx",
     themes: {
       light: "github-light",
@@ -79,16 +66,37 @@ export const Preview = async ({ path, className }: ComponentPreviewProps) => {
   });
 
   return (
-    <CodeBlockTabs defaultValue="preview">
+    <CodeBlockTabs defaultValue="preview-shadcn">
       <CodeBlockTabsList>
-        <CodeBlockTabsTrigger value="preview">Preview</CodeBlockTabsTrigger>
+        <CodeBlockTabsTrigger value="preview-shadcn">
+          Preview (shadcn-ui)
+        </CodeBlockTabsTrigger>
+        <CodeBlockTabsTrigger value="preview-mui">
+          Preview (material UI)
+        </CodeBlockTabsTrigger>
         <CodeBlockTabsTrigger value="code">Code</CodeBlockTabsTrigger>
       </CodeBlockTabsList>
-      <CodeBlockTab className="not-prose p-0" value="preview">
+      <CodeBlockTab className="not-prose p-0" value="preview-shadcn">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={100}>
             <div className={cn("h-[600px] overflow-auto p-4", className)}>
-              <Component />
+              <ShadcnComponent />
+            </div>
+          </ResizablePanel>
+          <ResizableHandle
+            className="translate-x-px border-none [&>div]:shrink-0"
+            withHandle
+          />
+          <ResizablePanel defaultSize={0} />
+        </ResizablePanelGroup>
+      </CodeBlockTab>
+      <CodeBlockTab className="not-prose p-0" value="preview-mui">
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel defaultSize={100}>
+            <div className={cn("h-[600px] overflow-auto p-4", className)}>
+              <ElementsMuiThemeProvider>
+                <MuiComponent />
+              </ElementsMuiThemeProvider>
             </div>
           </ResizablePanel>
           <ResizableHandle
@@ -101,8 +109,16 @@ export const Preview = async ({ path, className }: ComponentPreviewProps) => {
       <CodeBlockTab className="p-0" value="code">
         <div className="not-prose h-[600px] overflow-y-auto">
           <CodeBlock className="pt-0">
+            <div className="border-b px-4 py-2 font-medium text-sm">
+              Shadcn-ui example
+            </div>
             {/** biome-ignore lint/security/noDangerouslySetInnerHtml: "this is needed." */}
-            <pre dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+            <pre dangerouslySetInnerHTML={{ __html: highlightedShadcnCode }} />
+            <div className="border-b px-4 py-2 font-medium text-sm">
+              Material UI example
+            </div>
+            {/** biome-ignore lint/security/noDangerouslySetInnerHtml: "this is needed." */}
+            <pre dangerouslySetInnerHTML={{ __html: highlightedMuiCode }} />
           </CodeBlock>
         </div>
       </CodeBlockTab>

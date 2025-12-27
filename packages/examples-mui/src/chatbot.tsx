@@ -7,13 +7,13 @@ import {
   MessageBranchPage,
   MessageBranchPrevious,
   MessageBranchSelector,
-} from "@repo/elements/message";
+} from "@repo/elements-mui/message";
 import {
   Conversation,
   ConversationContent,
   ConversationScrollButton,
-} from "@repo/elements/conversation";
-import { Message, MessageContent } from "@repo/elements/message";
+} from "@repo/elements-mui/conversation";
+import { Message, MessageContent } from "@repo/elements-mui/message";
 import {
   PromptInput,
   PromptInputActionAddAttachments,
@@ -30,7 +30,7 @@ import {
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputTools,
-} from "@repo/elements/prompt-input";
+} from "@repo/elements-mui/prompt-input";
 import {
   ModelSelector,
   ModelSelectorContent,
@@ -43,20 +43,20 @@ import {
   ModelSelectorLogoGroup,
   ModelSelectorName,
   ModelSelectorTrigger,
-} from "@repo/elements/model-selector";
+} from "@repo/elements-mui/model-selector";
 import {
   Reasoning,
   ReasoningContent,
   ReasoningTrigger,
-} from "@repo/elements/reasoning";
-import { MessageResponse } from "@repo/elements/message";
+} from "@repo/elements-mui/reasoning";
+import { MessageResponse } from "@repo/elements-mui/message";
 import {
   Source,
   Sources,
   SourcesContent,
   SourcesTrigger,
-} from "@repo/elements/sources";
-import { Suggestion, Suggestions } from "@repo/elements/suggestion";
+} from "@repo/elements-mui/sources";
+import { Suggestion, Suggestions } from "@repo/elements-mui/suggestion";
 import type { ToolUIPart } from "ai";
 import { CheckIcon, GlobeIcon, MicIcon } from "lucide-react";
 import { nanoid } from "nanoid";

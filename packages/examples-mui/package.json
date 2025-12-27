@@ -8,13 +8,18 @@
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^13.8.0",
-    "@repo/elements": "workspace:*",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.4",
+    "@repo/elements-mui": "workspace:*",
     "@xyflow/react": "^12.9.2",
     "ai": "^5.0.108",
+    "clsx": "^2.1.1",
     "lucide-react": "^0.552.0",
     "nanoid": "^5.1.6",
     "react": "19.2.1",
-    "sonner": "^2.0.7"
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

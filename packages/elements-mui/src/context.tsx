@@ -1,16 +1,12 @@
 "use client";
 
-import { Button } from "@repo/shadcn-ui/components/ui/button";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@repo/shadcn-ui/components/ui/hover-card";
-import { Progress } from "@repo/shadcn-ui/components/ui/progress";
-import { cn } from "@repo/shadcn-ui/lib/utils";
 import type { LanguageModelUsage } from "ai";
 import { type ComponentProps, createContext, useContext } from "react";
 import { getUsage } from "tokenlens";
+import { Button } from "./ui/button";
+import { cn } from "./ui/cn";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import { Progress } from "./ui/progress";
 
 const PERCENT_MAX = 100;
 const ICON_RADIUS = 10;

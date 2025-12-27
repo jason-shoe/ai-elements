@@ -9,8 +9,8 @@ import {
   PlanHeader,
   PlanTitle,
   PlanTrigger,
-} from "@repo/elements/plan";
-import { Button } from "@repo/shadcn-ui/components/ui/button";
+} from "@repo/elements-mui/plan";
+import Button from "@mui/material/Button";
 import { FileText } from "lucide-react";
 
 const Example = () => (
@@ -54,7 +54,7 @@ const Example = () => (
     </PlanContent>
     <PlanFooter className="justify-end">
       <PlanAction>
-        <Button size="sm">
+        <Button size="small" variant="contained">
           Build <kbd className="font-mono">⌘↩</kbd>
         </Button>
       </PlanAction>

@@ -1,12 +1,5 @@
 "use client";
 
-import { Badge } from "@repo/shadcn-ui/components/ui/badge";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@repo/shadcn-ui/components/ui/collapsible";
-import { cn } from "@repo/shadcn-ui/lib/utils";
 import type { ToolUIPart } from "ai";
 import {
   CheckCircleIcon,
@@ -19,6 +12,13 @@ import {
 import type { ComponentProps, ReactNode } from "react";
 import { isValidElement } from "react";
 import { CodeBlock } from "./code-block";
+import { Badge } from "./ui/badge";
+import { cn } from "./ui/cn";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible";
 
 export type ToolProps = ComponentProps<typeof Collapsible>;
 
@@ -49,14 +49,14 @@ const getStatusBadge = (status: ToolUIPart["state"]) => {
   };
 
   const icons: Record<ToolUIPart["state"], ReactNode> = {
-    "input-streaming": <CircleIcon className="size-4" />,
-    "input-available": <ClockIcon className="size-4 animate-pulse" />,
+    "input-streaming": <CircleIcon className="size-3" />,
+    "input-available": <ClockIcon className="size-3 animate-pulse" />,
     // @ts-expect-error state only available in AI SDK v6
-    "approval-requested": <ClockIcon className="size-4 text-yellow-600" />,
-    "approval-responded": <CheckCircleIcon className="size-4 text-blue-600" />,
-    "output-available": <CheckCircleIcon className="size-4 text-green-600" />,
-    "output-error": <XCircleIcon className="size-4 text-red-600" />,
-    "output-denied": <XCircleIcon className="size-4 text-orange-600" />,
+    "approval-requested": <ClockIcon className="size-3 text-yellow-600" />,
+    "approval-responded": <CheckCircleIcon className="size-3 text-blue-600" />,
+    "output-available": <CheckCircleIcon className="size-3 text-green-600" />,
+    "output-error": <XCircleIcon className="size-3 text-red-600" />,
+    "output-denied": <XCircleIcon className="size-3 text-orange-600" />,
   };
 
   return (

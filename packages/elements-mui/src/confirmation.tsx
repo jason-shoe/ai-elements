@@ -1,8 +1,6 @@
 "use client";
 
-import { Alert, AlertDescription } from "@repo/shadcn-ui/components/ui/alert";
-import { Button } from "@repo/shadcn-ui/components/ui/button";
-import { cn } from "@repo/shadcn-ui/lib/utils";
+import MuiAlert, { type AlertProps as MuiAlertProps } from "@mui/material/Alert";
 import type { ToolUIPart } from "ai";
 import {
   type ComponentProps,
@@ -10,6 +8,8 @@ import {
   type ReactNode,
   useContext,
 } from "react";
+import { Button } from "./ui/button";
+import { cn } from "./ui/cn";
 
 type ToolUIPartApproval =
   | {
@@ -58,7 +58,7 @@ const useConfirmation = () => {
   return context;
 };
 
-export type ConfirmationProps = ComponentProps<typeof Alert> & {
+export type ConfirmationProps = MuiAlertProps & {
   approval?: ToolUIPartApproval;
   state: ToolUIPart["state"];
 };
@@ -75,18 +75,22 @@ export const Confirmation = ({
 
   return (
     <ConfirmationContext.Provider value={{ approval, state }}>
-      <Alert className={cn("flex flex-col gap-2", className)} {...props} />
+      <MuiAlert
+        className={cn("flex flex-col gap-2", className)}
+        icon={false}
+        {...(props as MuiAlertProps)}
+      />
     </ConfirmationContext.Provider>
   );
 };
 
-export type ConfirmationTitleProps = ComponentProps<typeof AlertDescription>;
+export type ConfirmationTitleProps = ComponentProps<"span">;
 
 export const ConfirmationTitle = ({
   className,
   ...props
 }: ConfirmationTitleProps) => (
-  <AlertDescription className={cn("inline", className)} {...props} />
+  <span className={cn("inline", className)} {...props} />
 );
 
 export type ConfirmationRequestProps = {

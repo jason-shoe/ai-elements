@@ -1,17 +1,6 @@
 "use client";
 
-import { Button } from "@repo/shadcn-ui/components/ui/button";
-import {
-  ButtonGroup,
-  ButtonGroupText,
-} from "@repo/shadcn-ui/components/ui/button-group";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@repo/shadcn-ui/components/ui/tooltip";
-import { cn } from "@repo/shadcn-ui/lib/utils";
+import MuiTooltip from "@mui/material/Tooltip";
 import type { FileUIPart, UIMessage } from "ai";
 import {
   ChevronLeftIcon,
@@ -22,6 +11,8 @@ import {
 import type { ComponentProps, HTMLAttributes, ReactElement } from "react";
 import { createContext, memo, useContext, useEffect, useState } from "react";
 import { Streamdown } from "streamdown";
+import { Button } from "./ui/button";
+import { cn } from "./ui/cn";
 
 export type MessageProps = HTMLAttributes<HTMLDivElement> & {
   from: UIMessage["role"];
@@ -38,17 +29,22 @@ export const Message = ({ className, from, ...props }: MessageProps) => (
   />
 );
 
-export type MessageContentProps = HTMLAttributes<HTMLDivElement>;
+export type MessageContentProps = HTMLAttributes<HTMLDivElement> & {
+  variant?: "contained" | "flat";
+};
 
 export const MessageContent = ({
   children,
   className,
+  variant = "contained",
   ...props
 }: MessageContentProps) => (
   <div
     className={cn(
       "is-user:dark flex w-fit max-w-full min-w-0 flex-col gap-2 overflow-hidden text-sm",
-      "group-[.is-user]:ml-auto group-[.is-user]:rounded-lg group-[.is-user]:bg-secondary group-[.is-user]:px-4 group-[.is-user]:py-3 group-[.is-user]:text-foreground",
+      variant === "contained" &&
+        "group-[.is-user]:ml-auto group-[.is-user]:rounded-lg group-[.is-user]:bg-secondary group-[.is-user]:px-4 group-[.is-user]:py-3 group-[.is-user]:text-foreground",
+      variant === "flat" && "group-[.is-user]:ml-auto group-[.is-user]:text-foreground",
       "group-[.is-assistant]:text-foreground",
       className
     )}
@@ -92,14 +88,9 @@ export const MessageAction = ({
 
   if (tooltip) {
     return (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>{button}</TooltipTrigger>
-          <TooltipContent>
-            <p>{tooltip}</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <MuiTooltip title={tooltip}>
+        <span>{button}</span>
+      </MuiTooltip>
     );
   }
 
@@ -228,9 +219,14 @@ export const MessageBranchSelector = ({
   }
 
   return (
-    <ButtonGroup
-      className="[&>*:not(:first-child)]:rounded-l-md [&>*:not(:last-child)]:rounded-r-md"
-      orientation="horizontal"
+    <div
+      className={cn(
+        "flex w-fit items-stretch [&>*]:focus-visible:z-10 [&>*]:focus-visible:relative",
+        "[&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none",
+        className
+      )}
+      data-slot="message-branch-selector"
+      role="group"
       {...props}
     />
   );
@@ -292,15 +288,15 @@ export const MessageBranchPage = ({
   const { currentBranch, totalBranches } = useMessageBranch();
 
   return (
-    <ButtonGroupText
+    <span
       className={cn(
-        "border-none bg-transparent text-muted-foreground shadow-none",
+        "flex items-center gap-2 rounded-md border bg-muted px-4 font-medium text-muted-foreground text-sm shadow-xs",
         className
       )}
       {...props}
     >
       {currentBranch + 1} of {totalBranches}
-    </ButtonGroupText>
+    </span>
   );
 };
 
@@ -374,16 +370,11 @@ export function MessageAttachment({
         </>
       ) : (
         <>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="flex size-full shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
-                <PaperclipIcon className="size-4" />
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{attachmentLabel}</p>
-            </TooltipContent>
-          </Tooltip>
+          <MuiTooltip title={attachmentLabel}>
+            <div className="flex size-full shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+              <PaperclipIcon className="size-4" />
+            </div>
+          </MuiTooltip>
           {onRemove && (
             <Button
               aria-label="Remove attachment"

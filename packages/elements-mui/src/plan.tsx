@@ -1,25 +1,17 @@
 "use client";
 
-import { Button } from "@repo/shadcn-ui/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@repo/shadcn-ui/components/ui/card";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@repo/shadcn-ui/components/ui/collapsible";
-import { cn } from "@repo/shadcn-ui/lib/utils";
+import Card from "@mui/material/Card";
 import { ChevronsUpDownIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import { createContext, useContext } from "react";
 import { Shimmer } from "./shimmer";
+import { Button } from "./ui/button";
+import { cn } from "./ui/cn";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible";
 
 type PlanContextValue = {
   isStreaming: boolean;
@@ -47,23 +39,25 @@ export const Plan = ({
 }: PlanProps) => (
   <PlanContext.Provider value={{ isStreaming }}>
     <Collapsible asChild data-slot="plan" {...props}>
-      <Card className={cn("shadow-none", className)}>{children}</Card>
+      <Card className={cn("shadow-none", className)} variant="outlined">
+        {children}
+      </Card>
     </Collapsible>
   </PlanContext.Provider>
 );
 
-export type PlanHeaderProps = ComponentProps<typeof CardHeader>;
+export type PlanHeaderProps = ComponentProps<"div">;
 
 export const PlanHeader = ({ className, ...props }: PlanHeaderProps) => (
-  <CardHeader
-    className={cn("flex items-start justify-between", className)}
+  <div
+    className={cn("flex items-start justify-between gap-2 p-6 pb-0", className)}
     data-slot="plan-header"
     {...props}
   />
 );
 
 export type PlanTitleProps = Omit<
-  ComponentProps<typeof CardTitle>,
+  ComponentProps<"h3">,
   "children"
 > & {
   children: string;
@@ -73,14 +67,14 @@ export const PlanTitle = ({ children, ...props }: PlanTitleProps) => {
   const { isStreaming } = usePlan();
 
   return (
-    <CardTitle data-slot="plan-title" {...props}>
-      {isStreaming ? <Shimmer>{children}</Shimmer> : children}
-    </CardTitle>
+    <h3 className="font-semibold text-base leading-none" data-slot="plan-title" {...props}>
+      {isStreaming ? <Shimmer as="span">{children}</Shimmer> : children}
+    </h3>
   );
 };
 
 export type PlanDescriptionProps = Omit<
-  ComponentProps<typeof CardDescription>,
+  ComponentProps<"p">,
   "children"
 > & {
   children: string;
@@ -94,34 +88,34 @@ export const PlanDescription = ({
   const { isStreaming } = usePlan();
 
   return (
-    <CardDescription
-      className={cn("text-balance", className)}
+    <p
+      className={cn("text-balance text-muted-foreground text-sm", className)}
       data-slot="plan-description"
       {...props}
     >
-      {isStreaming ? <Shimmer>{children}</Shimmer> : children}
-    </CardDescription>
+      {isStreaming ? <Shimmer as="span">{children}</Shimmer> : children}
+    </p>
   );
 };
 
-export type PlanActionProps = ComponentProps<typeof CardAction>;
+export type PlanActionProps = ComponentProps<"div">;
 
 export const PlanAction = (props: PlanActionProps) => (
-  <CardAction data-slot="plan-action" {...props} />
+  <div data-slot="plan-action" {...props} />
 );
 
-export type PlanContentProps = ComponentProps<typeof CardContent>;
+export type PlanContentProps = ComponentProps<"div">;
 
 export const PlanContent = (props: PlanContentProps) => (
   <CollapsibleContent asChild>
-    <CardContent data-slot="plan-content" {...props} />
+    <div className="p-6" data-slot="plan-content" {...props} />
   </CollapsibleContent>
 );
 
 export type PlanFooterProps = ComponentProps<"div">;
 
 export const PlanFooter = (props: PlanFooterProps) => (
-  <CardFooter data-slot="plan-footer" {...props} />
+  <div className="p-6 pt-0" data-slot="plan-footer" {...props} />
 );
 
 export type PlanTriggerProps = ComponentProps<typeof CollapsibleTrigger>;

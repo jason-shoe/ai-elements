@@ -1,21 +1,21 @@
 "use client";
 
-import { Conversation, ConversationContent } from "@repo/elements/conversation";
-import { Loader } from "@repo/elements/loader";
-import { Message, MessageContent } from "@repo/elements/message";
+import { Conversation, ConversationContent } from "@repo/elements-mui/conversation";
+import { Loader } from "@repo/elements-mui/loader";
+import { Message, MessageContent } from "@repo/elements-mui/message";
 import {
   PromptInput,
   type PromptInputMessage,
   PromptInputSubmit,
   PromptInputTextarea,
-} from "@repo/elements/prompt-input";
-import { Suggestion, Suggestions } from "@repo/elements/suggestion";
+} from "@repo/elements-mui/prompt-input";
+import { Suggestion, Suggestions } from "@repo/elements-mui/suggestion";
 import {
   WebPreview,
   WebPreviewBody,
   WebPreviewNavigation,
   WebPreviewUrl,
-} from "@repo/elements/web-preview";
+} from "@repo/elements-mui/web-preview";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 

@@ -1,6 +1,13 @@
 "use client";
 
-import { Button } from "@repo/shadcn-ui/components/ui/button";
+import {
+  ChevronDownIcon,
+  ExternalLinkIcon,
+  MessageCircleIcon,
+} from "lucide-react";
+import { type ComponentProps, createContext, useContext } from "react";
+import { Button } from "./ui/button";
+import { cn } from "./ui/cn";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,14 +15,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@repo/shadcn-ui/components/ui/dropdown-menu";
-import { cn } from "@repo/shadcn-ui/lib/utils";
-import {
-  ChevronDownIcon,
-  ExternalLinkIcon,
-  MessageCircleIcon,
-} from "lucide-react";
-import { type ComponentProps, createContext, useContext } from "react";
+} from "./ui/dropdown-menu";
 
 const providers = {
   github: {

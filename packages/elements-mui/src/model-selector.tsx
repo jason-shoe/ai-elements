@@ -1,6 +1,20 @@
+import MuiDialog from "@mui/material/Dialog";
+import MuiDialogContent from "@mui/material/DialogContent";
+import MuiDialogTitle from "@mui/material/DialogTitle";
+import {
+  cloneElement,
+  type ComponentProps,
+  createContext,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
@@ -8,30 +22,112 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@repo/shadcn-ui/components/ui/command";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@repo/shadcn-ui/components/ui/dialog";
-import { cn } from "@repo/shadcn-ui/lib/utils";
-import type { ComponentProps, ReactNode } from "react";
+} from "./ui/command";
+import { cn } from "./ui/cn";
 
-export type ModelSelectorProps = ComponentProps<typeof Dialog>;
+type ModelSelectorContextValue = {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+};
 
-export const ModelSelector = (props: ModelSelectorProps) => (
-  <Dialog {...props} />
+const ModelSelectorContext = createContext<ModelSelectorContextValue | null>(
+  null
 );
 
-export type ModelSelectorTriggerProps = ComponentProps<typeof DialogTrigger>;
+const useModelSelector = () => {
+  const ctx = useContext(ModelSelectorContext);
+  if (!ctx) {
+    throw new Error("ModelSelector components must be used within ModelSelector");
+  }
+  return ctx;
+};
 
-export const ModelSelectorTrigger = (props: ModelSelectorTriggerProps) => (
-  <DialogTrigger {...props} />
-);
+export type ModelSelectorProps = {
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  children?: ReactNode;
+} & Omit<ComponentProps<"div">, "children">;
 
-export type ModelSelectorContentProps = ComponentProps<typeof DialogContent> & {
+export const ModelSelector = ({
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+  children,
+  ...props
+}: ModelSelectorProps) => {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const open = openProp ?? uncontrolledOpen;
+
+  const setOpen = useCallback(
+    (next: boolean) => {
+      onOpenChange?.(next);
+      if (openProp == null) {
+        setUncontrolledOpen(next);
+      }
+    },
+    [onOpenChange, openProp]
+  );
+
+  const value = useMemo(() => ({ open, setOpen }), [open, setOpen]);
+
+  return (
+    <ModelSelectorContext.Provider value={value}>
+      <div data-slot="model-selector" {...props}>
+        {children}
+      </div>
+    </ModelSelectorContext.Provider>
+  );
+};
+
+export type ModelSelectorTriggerProps = {
+  asChild?: boolean;
+  children?: ReactNode;
+} & Omit<ComponentProps<"button">, "children" | "type">;
+
+export const ModelSelectorTrigger = ({
+  asChild = false,
+  children,
+  onClick,
+  className,
+  ...props
+}: ModelSelectorTriggerProps) => {
+  const { open, setOpen } = useModelSelector();
+
+  const handleClick: ComponentProps<"button">["onClick"] = (e) => {
+    onClick?.(e);
+    if (!e.defaultPrevented) {
+      setOpen(!open);
+    }
+  };
+
+  if (asChild && isValidElement(children)) {
+    const child = children as ReactElement<any>;
+    return cloneElement(child, {
+      ...props,
+      onClick: handleClick,
+      className: cn(child.props?.className, className),
+    });
+  }
+
+  return (
+    <button
+      className={cn(className)}
+      onClick={handleClick}
+      type="button"
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+
+export type ModelSelectorContentProps = Omit<
+  ComponentProps<typeof MuiDialogContent>,
+  "children"
+> & {
   title?: ReactNode;
+  children?: ReactNode;
 };
 
 export const ModelSelectorContent = ({
@@ -40,19 +136,53 @@ export const ModelSelectorContent = ({
   title = "Model Selector",
   ...props
 }: ModelSelectorContentProps) => (
-  <DialogContent className={cn("p-0", className)} {...props}>
-    <DialogTitle className="sr-only">{title}</DialogTitle>
-    <Command className="**:data-[slot=command-input-wrapper]:h-auto">
+  <ModelSelectorDialog open={useModelSelector().open} onOpenChange={useModelSelector().setOpen}>
+    <MuiDialogContent className={cn("p-0", className)} {...props}>
+      <MuiDialogTitle className="sr-only">{title}</MuiDialogTitle>
+      <Command className="**:data-[slot=command-input-wrapper]:h-auto">
+        {children}
+      </Command>
+    </MuiDialogContent>
+  </ModelSelectorDialog>
+);
+
+export type ModelSelectorDialogProps = {
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  children?: ReactNode;
+} & Omit<ComponentProps<typeof MuiDialog>, "open" | "onClose" | "children">;
+
+export const ModelSelectorDialog = ({
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+  children,
+  ...props
+}: ModelSelectorDialogProps) => {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const open = openProp ?? uncontrolledOpen;
+
+  const setOpen = useCallback(
+    (next: boolean) => {
+      onOpenChange?.(next);
+      if (openProp == null) {
+        setUncontrolledOpen(next);
+      }
+    },
+    [onOpenChange, openProp]
+  );
+
+  return (
+    <MuiDialog
+      onClose={() => setOpen(false)}
+      open={open}
+      {...props}
+    >
       {children}
-    </Command>
-  </DialogContent>
-);
-
-export type ModelSelectorDialogProps = ComponentProps<typeof CommandDialog>;
-
-export const ModelSelectorDialog = (props: ModelSelectorDialogProps) => (
-  <CommandDialog {...props} />
-);
+    </MuiDialog>
+  );
+};
 
 export type ModelSelectorInputProps = ComponentProps<typeof CommandInput>;
 

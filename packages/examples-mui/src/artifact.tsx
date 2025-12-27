@@ -8,8 +8,8 @@ import {
   ArtifactDescription,
   ArtifactHeader,
   ArtifactTitle,
-} from "@repo/elements/artifact";
-import { CodeBlock } from "@repo/elements/code-block";
+} from "@repo/elements-mui/artifact";
+import { CodeBlock } from "@repo/elements-mui/code-block";
 import {
   CopyIcon,
   DownloadIcon,

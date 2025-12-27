@@ -12,7 +12,7 @@ import {
   ModelSelectorLogoGroup,
   ModelSelectorName,
   ModelSelectorTrigger,
-} from "@repo/elements/model-selector";
+} from "@repo/elements-mui/model-selector";
 import {
   PromptInput,
   PromptInputActionAddAttachments,
@@ -31,9 +31,9 @@ import {
   PromptInputTextarea,
   PromptInputTools,
   usePromptInputController,
-} from "@repo/elements/prompt-input";
-import { Button } from "@repo/shadcn-ui/components/ui/button";
-import { ButtonGroup } from "@repo/shadcn-ui/components/ui/button-group";
+} from "@repo/elements-mui/prompt-input";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
 import { CheckIcon, GlobeIcon } from "lucide-react";
 import { useRef, useState } from "react";
 
@@ -94,9 +94,9 @@ const HeaderControls = () => {
           onClick={() => {
             controller.textInput.clear();
           }}
-          size="sm"
+          size="small"
           type="button"
-          variant="outline"
+          variant="outlined"
         >
           Clear input
         </Button>
@@ -104,9 +104,9 @@ const HeaderControls = () => {
           onClick={() => {
             controller.textInput.setInput("Inserted via PromptInputProvider");
           }}
-          size="sm"
+          size="small"
           type="button"
-          variant="outline"
+          variant="outlined"
         >
           Set input
         </Button>
@@ -115,9 +115,9 @@ const HeaderControls = () => {
           onClick={() => {
             controller.attachments.clear();
           }}
-          size="sm"
+          size="small"
           type="button"
-          variant="outline"
+          variant="outlined"
         >
           Clear attachments
         </Button>

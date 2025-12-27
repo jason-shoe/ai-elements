@@ -1,5 +1,5 @@
-import { cn } from "@repo/shadcn-ui/lib/utils";
 import type { HTMLAttributes } from "react";
+import { cn } from "./ui/cn";
 
 type LoaderIconProps = {
   size?: number;

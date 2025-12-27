@@ -13,8 +13,8 @@ import {
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputTools,
-} from "@repo/elements/prompt-input";
-import { Suggestion, Suggestions } from "@repo/elements/suggestion";
+} from "@repo/elements-mui/prompt-input";
+import { Suggestion, Suggestions } from "@repo/elements-mui/suggestion";
 import { GlobeIcon, MicIcon, PlusIcon, SendIcon } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useState } from "react";
