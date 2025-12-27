@@ -40,13 +40,11 @@ export const Suggestion = ({
 
   return (
     <Chip
-      className={cn("cursor-pointer rounded-full px-4", className)}
-      component="button"
+      className={cn("cursor-pointer", className)}
       disabled={props.disabled}
       label={children ?? suggestion}
       onClick={handleClick}
       size={size}
-      type="button"
       variant={variant}
       {...props}
     />
