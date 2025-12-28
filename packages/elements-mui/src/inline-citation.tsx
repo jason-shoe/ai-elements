@@ -52,7 +52,6 @@ export const InlineCitationText = ({
 }: InlineCitationTextProps) => (
   <InlineCitationTextRoot
     className={cn("transition-colors", className)}
-    component="span"
     variant="inherit"
     {...props}
   />
