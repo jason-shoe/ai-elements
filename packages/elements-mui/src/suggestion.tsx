@@ -1,7 +1,7 @@
 "use client";
 
-import type { ComponentProps } from "react";
-import Chip from "@mui/material/Chip";
+import type { ComponentProps, ReactNode } from "react";
+import { Button } from "./ui/button";
 import { cn } from "./ui/cn";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
@@ -20,17 +20,19 @@ export const Suggestions = ({
   </ScrollArea>
 );
 
-export type SuggestionProps = Omit<ComponentProps<typeof Chip>, "onClick"> & {
+export type SuggestionProps = Omit<
+  ComponentProps<typeof Button>,
+  "onClick" | "children" | "type" | "size" | "variant"
+> & {
   suggestion: string;
   onClick?: (suggestion: string) => void;
+  children?: ReactNode;
 };
 
 export const Suggestion = ({
   suggestion,
   onClick,
   className,
-  variant = "outlined",
-  size = "small",
   children,
   ...props
 }: SuggestionProps) => {
@@ -39,14 +41,15 @@ export const Suggestion = ({
   };
 
   return (
-    <Chip
-      className={cn("cursor-pointer", className)}
-      disabled={props.disabled}
-      label={children ?? suggestion}
+    <Button
+      className={cn("shrink-0 rounded-full", className)}
       onClick={handleClick}
-      size={size}
-      variant={variant}
+      size="sm"
+      type="button"
+      variant="outline"
       {...props}
-    />
+    >
+      {children ?? suggestion}
+    </Button>
   );
 };

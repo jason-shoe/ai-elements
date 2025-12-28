@@ -1,5 +1,7 @@
 "use client";
 
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { ArrowDownIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import { useCallback } from "react";
@@ -56,11 +58,20 @@ export const ConversationEmptyState = ({
   >
     {children ?? (
       <>
-        {icon && <div className="text-muted-foreground">{icon}</div>}
+        {icon && <Box sx={{ color: "text.secondary" }}>{icon}</Box>}
         <div className="space-y-1">
-          <h3 className="font-medium text-sm">{title}</h3>
+          <Typography component="h3" sx={{ fontWeight: 500, fontSize: 14 }} variant="body2">
+            {title}
+          </Typography>
           {description && (
-            <p className="text-muted-foreground text-sm">{description}</p>
+            <Typography
+              color="text.secondary"
+              component="p"
+              sx={{ fontSize: 14 }}
+              variant="body2"
+            >
+              {description}
+            </Typography>
           )}
         </div>
       </>

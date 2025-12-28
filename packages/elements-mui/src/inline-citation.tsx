@@ -1,5 +1,7 @@
 "use client";
 
+import Typography from "@mui/material/Typography";
+import { alpha, styled, useTheme } from "@mui/material/styles";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import {
   type ComponentProps,
@@ -11,14 +13,33 @@ import { Badge } from "./ui/badge";
 import { cn } from "./ui/cn";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 
+const InlineCitationTextRoot = styled(Typography)(({ theme }) => ({
+  transitionProperty: "background-color",
+  transitionDuration: "150ms",
+  ".group:hover &": {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
+
+const InlineCitationCarouselHeaderRoot = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.action.hover,
+}));
+
+const InlineCitationQuoteRoot = styled("blockquote")(({ theme }) => ({
+  borderLeftColor: alpha(theme.palette.text.secondary, 0.35),
+  color: theme.palette.text.secondary,
+}));
+
 export type InlineCitationProps = ComponentProps<"span">;
 
 export const InlineCitation = ({
   className,
   ...props
 }: InlineCitationProps) => (
-  <span
+  <Typography
     className={cn("group inline items-center gap-1", className)}
+    component="span"
+    variant="inherit"
     {...props}
   />
 );
@@ -29,8 +50,9 @@ export const InlineCitationText = ({
   className,
   ...props
 }: InlineCitationTextProps) => (
-  <span
-    className={cn("transition-colors group-hover:bg-accent", className)}
+  <InlineCitationTextRoot
+    className={cn("transition-colors", className)}
+    variant="inherit"
     {...props}
   />
 );
@@ -128,9 +150,9 @@ export const InlineCitationCarouselHeader = ({
   className,
   ...props
 }: InlineCitationCarouselHeaderProps) => (
-  <div
+  <InlineCitationCarouselHeaderRoot
     className={cn(
-      "flex items-center justify-between gap-2 rounded-t-md bg-secondary p-2",
+      "flex items-center justify-between gap-2 rounded-t-md p-2",
       className
     )}
     {...props}
@@ -149,17 +171,18 @@ export const InlineCitationCarouselIndex = ({
   className,
   ...props
 }: InlineCitationCarouselIndexProps) => (
-  <div
-    className={cn(
-      "flex flex-1 items-center justify-end px-3 py-1 text-muted-foreground text-xs",
-      className
-    )}
+  <Typography
+    className={cn("flex flex-1 items-center justify-end px-3 py-1", className)}
+    color="text.secondary"
     data-count={count}
     data-current={current}
+    component="div"
+    sx={{ fontSize: 12 }}
+    variant="caption"
     {...props}
   >
     {children ?? `${current}/${count}`}
-  </div>
+  </Typography>
 );
 
 export type InlineCitationCarouselPrevProps = ComponentProps<"button">;
@@ -169,6 +192,7 @@ export const InlineCitationCarouselPrev = ({
   ...props
 }: InlineCitationCarouselPrevProps) => {
   const ctx = useInlineCitationCarousel();
+  const theme = useTheme();
 
   const handleClick = useCallback(() => {
     ctx?.onPrev?.();
@@ -182,7 +206,7 @@ export const InlineCitationCarouselPrev = ({
       type="button"
       {...props}
     >
-      <ArrowLeftIcon className="size-4 text-muted-foreground" />
+      <ArrowLeftIcon className="size-4" style={{ color: theme.palette.text.secondary }} />
     </button>
   );
 };
@@ -194,6 +218,7 @@ export const InlineCitationCarouselNext = ({
   ...props
 }: InlineCitationCarouselNextProps) => {
   const ctx = useInlineCitationCarousel();
+  const theme = useTheme();
 
   const handleClick = useCallback(() => {
     ctx?.onNext?.();
@@ -207,7 +232,7 @@ export const InlineCitationCarouselNext = ({
       type="button"
       {...props}
     >
-      <ArrowRightIcon className="size-4 text-muted-foreground" />
+      <ArrowRightIcon className="size-4" style={{ color: theme.palette.text.secondary }} />
     </button>
   );
 };
@@ -228,15 +253,36 @@ export const InlineCitationSource = ({
 }: InlineCitationSourceProps) => (
   <div className={cn("space-y-1", className)} {...props}>
     {title && (
-      <h4 className="truncate font-medium text-sm leading-tight">{title}</h4>
+      <Typography
+        className="truncate leading-tight"
+        component="h4"
+        sx={{ fontWeight: 500, fontSize: 14 }}
+        variant="body2"
+      >
+        {title}
+      </Typography>
     )}
     {url && (
-      <p className="truncate break-all text-muted-foreground text-xs">{url}</p>
+      <Typography
+        className="truncate break-all"
+        color="text.secondary"
+        component="p"
+        sx={{ fontSize: 12 }}
+        variant="caption"
+      >
+        {url}
+      </Typography>
     )}
     {description && (
-      <p className="line-clamp-3 text-muted-foreground text-sm leading-relaxed">
+      <Typography
+        className="line-clamp-3 leading-relaxed"
+        color="text.secondary"
+        component="p"
+        sx={{ fontSize: 14 }}
+        variant="body2"
+      >
         {description}
-      </p>
+      </Typography>
     )}
     {children}
   </div>
@@ -249,13 +295,13 @@ export const InlineCitationQuote = ({
   className,
   ...props
 }: InlineCitationQuoteProps) => (
-  <blockquote
+  <InlineCitationQuoteRoot
     className={cn(
-      "border-muted border-l-2 pl-3 text-muted-foreground text-sm italic",
+      "border-l-2 pl-3 text-sm italic",
       className
     )}
     {...props}
   >
     {children}
-  </blockquote>
+  </InlineCitationQuoteRoot>
 );

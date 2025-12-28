@@ -1,6 +1,8 @@
 "use client";
 
 import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 import {
   type ComponentProps,
   createContext,
@@ -11,6 +13,29 @@ import {
   useState,
 } from "react";
 import { cn } from "./cn";
+
+const SelectTriggerButton = styled("button")(({ theme }) => ({
+  borderColor: theme.palette.divider,
+  color: theme.palette.text.primary,
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&[aria-expanded='true']": {
+    backgroundColor: theme.palette.action.selected,
+  },
+}));
+
+const SelectItemRoot = styled("div")(({ theme }) => ({
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+    color: theme.palette.text.primary,
+  },
+}));
+
+const SelectSeparatorRoot = styled("hr")(({ theme }) => ({
+  backgroundColor: theme.palette.divider,
+  border: 0,
+}));
 
 type SelectContextValue = {
   open: boolean;
@@ -125,11 +150,11 @@ export function SelectTrigger({
   const { open, setOpen, setAnchorEl } = useSelect();
 
   return (
-    <button
+    <SelectTriggerButton
       aria-expanded={open}
       aria-haspopup="listbox"
       className={cn(
-        "flex w-fit items-center justify-between gap-2 rounded-md border border-border bg-transparent px-3 text-sm shadow-xs",
+        "flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 text-sm shadow-xs",
         size === "default" && "h-9",
         size === "sm" && "h-8",
         className
@@ -149,10 +174,15 @@ export function SelectTrigger({
       {...props}
     >
       {children}
-      <span aria-hidden="true" className="opacity-50">
+      <Typography
+        aria-hidden="true"
+        className="opacity-50"
+        component="span"
+        variant="inherit"
+      >
         ▾
-      </span>
-    </button>
+      </Typography>
+    </SelectTriggerButton>
   );
 }
 
@@ -165,17 +195,19 @@ export function SelectValue({ placeholder, className, ...props }: SelectValuePro
   const { label, value } = useSelect();
 
   return (
-    <span
+    <Typography
       className={cn(
         "line-clamp-1 flex items-center gap-2",
-        value == null && "text-muted-foreground",
         className
       )}
+      color={value == null ? "text.secondary" : "text.primary"}
       data-slot="select-value"
+      component="span"
+      variant="inherit"
       {...props}
     >
       {value == null ? placeholder : label}
-    </span>
+    </Typography>
   );
 }
 
@@ -198,7 +230,8 @@ export function SelectContent({ className, children, ...props }: SelectContentPr
       open={open && anchorEl != null}
       slotProps={{
         paper: {
-          className: cn("rounded-md border bg-background shadow-md", className),
+          className: cn("rounded-md border shadow-md", className),
+          sx: { bgcolor: "background.paper", borderColor: "divider" },
         },
       }}
       {...props}
@@ -229,12 +262,11 @@ export function SelectItem({
   const isSelected = selectedValue === value;
 
   return (
-    <div
+    <SelectItemRoot
       aria-disabled={disabled || undefined}
       aria-selected={isSelected}
       className={cn(
         "flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none",
-        !disabled && "hover:bg-accent hover:text-accent-foreground",
         disabled && "pointer-events-none opacity-50",
         className
       )}
@@ -249,8 +281,14 @@ export function SelectItem({
       {...props}
     >
       {children}
-      {isSelected ? <span className="ml-auto">✓</span> : <span className="ml-auto size-4" />}
-    </div>
+      {isSelected ? (
+        <Typography className="ml-auto" component="span" variant="inherit">
+          ✓
+        </Typography>
+      ) : (
+        <span aria-hidden="true" className="ml-auto size-4" />
+      )}
+    </SelectItemRoot>
   );
 }
 
@@ -262,8 +300,8 @@ export function SelectGroup(props: SelectGroupProps) {
 export type SelectSeparatorProps = ComponentProps<"hr">;
 export function SelectSeparator({ className, ...props }: SelectSeparatorProps) {
   return (
-    <hr
-      className={cn("bg-border -mx-1 my-1 h-px border-0", className)}
+    <SelectSeparatorRoot
+      className={cn("-mx-1 my-1 h-px", className)}
       data-slot="select-separator"
       role="separator"
       {...props}

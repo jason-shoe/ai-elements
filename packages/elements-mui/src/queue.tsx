@@ -1,5 +1,7 @@
 "use client";
 
+import Typography from "@mui/material/Typography";
+import { alpha, styled } from "@mui/material/styles";
 import { ChevronDownIcon, PaperclipIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import { Button } from "./ui/button";
@@ -10,6 +12,45 @@ import {
   CollapsibleTrigger,
 } from "./ui/collapsible";
 import { ScrollArea } from "./ui/scroll-area";
+
+const QueueItemRoot = styled("li")(({ theme }) => ({
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
+
+const QueueItemIndicatorRoot = styled("span", {
+  shouldForwardProp: (prop) => prop !== "completed",
+})<{ completed?: boolean }>(({ theme, completed }) => ({
+  borderColor: alpha(theme.palette.text.secondary, completed ? 0.2 : 0.5),
+  backgroundColor: completed
+    ? alpha(theme.palette.text.secondary, 0.1)
+    : "transparent",
+}));
+
+const QueueSectionTriggerButton = styled("button")(({ theme }) => ({
+  backgroundColor: theme.palette.action.hover,
+  color: theme.palette.text.secondary,
+  "&:hover": {
+    backgroundColor: theme.palette.action.selected,
+    color: theme.palette.text.primary,
+  },
+}));
+
+const QueueRoot = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  borderColor: theme.palette.divider,
+}));
+
+const QueueItemFileRoot = styled("span")(({ theme }) => ({
+  backgroundColor: theme.palette.action.hover,
+  borderColor: theme.palette.divider,
+  color: theme.palette.text.secondary,
+}));
+
+const QueueItemImageRoot = styled("img")(({ theme }) => ({
+  borderColor: theme.palette.divider,
+}));
 
 export type QueueMessagePart = {
   type: string;
@@ -34,9 +75,9 @@ export type QueueTodo = {
 export type QueueItemProps = ComponentProps<"li">;
 
 export const QueueItem = ({ className, ...props }: QueueItemProps) => (
-  <li
+  <QueueItemRoot
     className={cn(
-      "group flex flex-col gap-1 rounded-md px-3 py-1 text-sm transition-colors hover:bg-muted",
+      "group flex flex-col gap-1 rounded-md px-3 py-1 text-sm transition-colors",
       className
     )}
     {...props}
@@ -52,14 +93,13 @@ export const QueueItemIndicator = ({
   className,
   ...props
 }: QueueItemIndicatorProps) => (
-  <span
+  <QueueItemIndicatorRoot
     className={cn(
       "mt-0.5 inline-block size-2.5 rounded-full border",
-      completed
-        ? "border-muted-foreground/20 bg-muted-foreground/10"
-        : "border-muted-foreground/50",
       className
     )}
+    completed={completed}
+    data-completed={completed ? "true" : "false"}
     {...props}
   />
 );
@@ -73,14 +113,11 @@ export const QueueItemContent = ({
   className,
   ...props
 }: QueueItemContentProps) => (
-  <span
-    className={cn(
-      "line-clamp-1 grow break-words",
-      completed
-        ? "text-muted-foreground/50 line-through"
-        : "text-muted-foreground",
-      className
-    )}
+  <Typography
+    className={cn("line-clamp-1 grow break-words", completed && "line-through", className)}
+    color={completed ? "text.disabled" : "text.secondary"}
+    component="span"
+    variant="body2"
     {...props}
   />
 );
@@ -94,14 +131,12 @@ export const QueueItemDescription = ({
   className,
   ...props
 }: QueueItemDescriptionProps) => (
-  <div
-    className={cn(
-      "ml-6 text-xs",
-      completed
-        ? "text-muted-foreground/40 line-through"
-        : "text-muted-foreground",
-      className
-    )}
+  <Typography
+    className={cn("ml-6", completed && "line-through", className)}
+    color={completed ? "text.disabled" : "text.secondary"}
+    component="div"
+    sx={{ fontSize: 12 }}
+    variant="caption"
     {...props}
   />
 );
@@ -126,10 +161,17 @@ export const QueueItemAction = ({
 }: QueueItemActionProps) => (
   <Button
     className={cn(
-      "size-auto rounded p-1 text-muted-foreground opacity-0 transition-opacity hover:bg-muted-foreground/10 hover:text-foreground group-hover:opacity-100",
+      "size-auto rounded p-1 opacity-0 transition-opacity group-hover:opacity-100",
       className
     )}
     size="icon"
+    sx={{
+      color: "text.secondary",
+      "&:hover": {
+        bgcolor: "action.hover",
+        color: "text.primary",
+      },
+    }}
     type="button"
     variant="ghost"
     {...props}
@@ -151,7 +193,7 @@ export const QueueItemImage = ({
   className,
   ...props
 }: QueueItemImageProps) => (
-  <img
+  <QueueItemImageRoot
     alt=""
     className={cn("h-8 w-8 rounded border object-cover", className)}
     height={32}
@@ -167,16 +209,23 @@ export const QueueItemFile = ({
   className,
   ...props
 }: QueueItemFileProps) => (
-  <span
+  <QueueItemFileRoot
     className={cn(
-      "flex items-center gap-1 rounded border bg-muted px-2 py-1 text-xs",
+      "flex items-center gap-1 rounded border px-2 py-1",
       className
     )}
     {...props}
   >
     <PaperclipIcon size={12} />
-    <span className="max-w-[100px] truncate">{children}</span>
-  </span>
+    <Typography
+      className="max-w-[100px] truncate"
+      component="span"
+      sx={{ fontSize: 12 }}
+      variant="caption"
+    >
+      {children}
+    </Typography>
+  </QueueItemFileRoot>
 );
 
 export type QueueListProps = ComponentProps<typeof ScrollArea>;
@@ -213,16 +262,16 @@ export const QueueSectionTrigger = ({
   ...props
 }: QueueSectionTriggerProps) => (
   <CollapsibleTrigger asChild>
-    <button
+    <QueueSectionTriggerButton
       className={cn(
-        "group flex w-full items-center justify-between rounded-md bg-muted/40 px-3 py-2 text-left font-medium text-muted-foreground text-sm transition-colors hover:bg-muted",
+        "group flex w-full items-center justify-between rounded-md px-3 py-2 text-left font-medium text-sm transition-colors",
         className
       )}
       type="button"
       {...props}
     >
       {children}
-    </button>
+    </QueueSectionTriggerButton>
   </CollapsibleTrigger>
 );
 
@@ -243,9 +292,9 @@ export const QueueSectionLabel = ({
   <span className={cn("flex items-center gap-2", className)} {...props}>
     <ChevronDownIcon className="group-data-[state=closed]:-rotate-90 size-4 transition-transform" />
     {icon}
-    <span>
+    <Typography component="span" variant="inherit">
       {count} {label}
-    </span>
+    </Typography>
   </span>
 );
 
@@ -264,9 +313,9 @@ export const QueueSectionContent = ({
 export type QueueProps = ComponentProps<"div">;
 
 export const Queue = ({ className, ...props }: QueueProps) => (
-  <div
+  <QueueRoot
     className={cn(
-      "flex flex-col gap-2 rounded-xl border border-border bg-background px-3 pt-2 pb-2 shadow-xs",
+      "flex flex-col gap-2 rounded-xl border px-3 pt-2 pb-2 shadow-xs",
       className
     )}
     {...props}

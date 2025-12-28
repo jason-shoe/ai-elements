@@ -1,5 +1,7 @@
 "use client";
 
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 import { BookIcon, ChevronDownIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import { cn } from "./ui/cn";
@@ -9,11 +11,15 @@ import {
   CollapsibleTrigger,
 } from "./ui/collapsible";
 
+const SourcesRoot = styled(Collapsible)(({ theme }) => ({
+  color: theme.palette.primary.main,
+}));
+
 export type SourcesProps = ComponentProps<"div">;
 
 export const Sources = ({ className, ...props }: SourcesProps) => (
-  <Collapsible
-    className={cn("not-prose mb-4 text-primary text-xs", className)}
+  <SourcesRoot
+    className={cn("not-prose mb-4 text-xs", className)}
     {...props}
   />
 );
@@ -70,7 +76,9 @@ export const Source = ({ href, title, children, ...props }: SourceProps) => (
     {children ?? (
       <>
         <BookIcon className="h-4 w-4" />
-        <span className="block font-medium">{title}</span>
+        <Typography component="span" sx={{ fontWeight: 500 }} variant="inherit">
+          {title}
+        </Typography>
       </>
     )}
   </a>

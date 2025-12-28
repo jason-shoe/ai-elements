@@ -1,6 +1,7 @@
 "use client";
 
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { styled } from "@mui/material/styles";
 import { BrainIcon, ChevronDownIcon } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { createContext, memo, useContext, useEffect, useState } from "react";
@@ -12,6 +13,15 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
+
+const ReasoningTriggerRoot = styled(CollapsibleTrigger)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  "&:hover": { color: theme.palette.text.primary },
+}));
+
+const ReasoningContentRoot = styled(CollapsibleContent)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+}));
 
 type ReasoningContextValue = {
   isStreaming: boolean;
@@ -130,9 +140,9 @@ export const ReasoningTrigger = memo(
     const { isStreaming, isOpen, duration } = useReasoning();
 
     return (
-      <CollapsibleTrigger
+      <ReasoningTriggerRoot
         className={cn(
-          "flex w-full items-center gap-2 text-muted-foreground text-sm transition-colors hover:text-foreground",
+          "flex w-full items-center gap-2 text-sm transition-colors",
           className
         )}
         {...props}
@@ -149,7 +159,7 @@ export const ReasoningTrigger = memo(
             />
           </>
         )}
-      </CollapsibleTrigger>
+      </ReasoningTriggerRoot>
     );
   }
 );
@@ -162,16 +172,16 @@ export type ReasoningContentProps = ComponentProps<
 
 export const ReasoningContent = memo(
   ({ className, children, ...props }: ReasoningContentProps) => (
-    <CollapsibleContent
+    <ReasoningContentRoot
       className={cn(
         "mt-4 text-sm",
-        "data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 text-muted-foreground outline-none data-[state=closed]:animate-out data-[state=open]:animate-in",
+        "data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 outline-none data-[state=closed]:animate-out data-[state=open]:animate-in",
         className
       )}
       {...props}
     >
       <Streamdown {...props}>{children}</Streamdown>
-    </CollapsibleContent>
+    </ReasoningContentRoot>
   )
 );
 

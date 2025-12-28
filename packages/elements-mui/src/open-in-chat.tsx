@@ -1,5 +1,6 @@
 "use client";
 
+import Typography from "@mui/material/Typography";
 import {
   ChevronDownIcon,
   ExternalLinkIcon,
@@ -257,7 +258,9 @@ export const OpenInChatGPT = (props: OpenInChatGPTProps) => {
         target="_blank"
       >
         <span className="shrink-0">{providers.chatgpt.icon}</span>
-        <span className="flex-1">{providers.chatgpt.title}</span>
+        <Typography className="flex-1" component="span" variant="inherit">
+          {providers.chatgpt.title}
+        </Typography>
         <ExternalLinkIcon className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
@@ -277,7 +280,9 @@ export const OpenInClaude = (props: OpenInClaudeProps) => {
         target="_blank"
       >
         <span className="shrink-0">{providers.claude.icon}</span>
-        <span className="flex-1">{providers.claude.title}</span>
+        <Typography className="flex-1" component="span" variant="inherit">
+          {providers.claude.title}
+        </Typography>
         <ExternalLinkIcon className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
@@ -297,7 +302,9 @@ export const OpenInT3 = (props: OpenInT3Props) => {
         target="_blank"
       >
         <span className="shrink-0">{providers.t3.icon}</span>
-        <span className="flex-1">{providers.t3.title}</span>
+        <Typography className="flex-1" component="span" variant="inherit">
+          {providers.t3.title}
+        </Typography>
         <ExternalLinkIcon className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
@@ -317,7 +324,9 @@ export const OpenInScira = (props: OpenInSciraProps) => {
         target="_blank"
       >
         <span className="shrink-0">{providers.scira.icon}</span>
-        <span className="flex-1">{providers.scira.title}</span>
+        <Typography className="flex-1" component="span" variant="inherit">
+          {providers.scira.title}
+        </Typography>
         <ExternalLinkIcon className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
@@ -337,7 +346,9 @@ export const OpenInv0 = (props: OpenInv0Props) => {
         target="_blank"
       >
         <span className="shrink-0">{providers.v0.icon}</span>
-        <span className="flex-1">{providers.v0.title}</span>
+        <Typography className="flex-1" component="span" variant="inherit">
+          {providers.v0.title}
+        </Typography>
         <ExternalLinkIcon className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>
@@ -357,7 +368,9 @@ export const OpenInCursor = (props: OpenInCursorProps) => {
         target="_blank"
       >
         <span className="shrink-0">{providers.cursor.icon}</span>
-        <span className="flex-1">{providers.cursor.title}</span>
+        <Typography className="flex-1" component="span" variant="inherit">
+          {providers.cursor.title}
+        </Typography>
         <ExternalLinkIcon className="size-4 shrink-0" />
       </a>
     </DropdownMenuItem>

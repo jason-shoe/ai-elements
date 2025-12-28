@@ -1,5 +1,7 @@
 "use client";
 
+import Typography from "@mui/material/Typography";
+import { alpha, useTheme } from "@mui/material/styles";
 import type { ToolUIPart } from "ai";
 import {
   CheckCircleIcon,
@@ -73,31 +75,45 @@ export const ToolHeader = ({
   type,
   state,
   ...props
-}: ToolHeaderProps) => (
-  <CollapsibleTrigger
-    className={cn(
-      "flex w-full items-center justify-between gap-4 p-3",
-      className
-    )}
-    {...props}
-  >
-    <div className="flex items-center gap-2">
-      <WrenchIcon className="size-4 text-muted-foreground" />
-      <span className="font-medium text-sm">
-        {title ?? type.split("-").slice(1).join("-")}
-      </span>
-      {getStatusBadge(state)}
-    </div>
-    <ChevronDownIcon className="size-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
-  </CollapsibleTrigger>
-);
+}: ToolHeaderProps) => {
+  const theme = useTheme();
+
+  return (
+    <CollapsibleTrigger
+      className={cn(
+        "flex w-full items-center justify-between gap-4 p-3",
+        className
+      )}
+      {...props}
+    >
+      <div className="flex items-center gap-2">
+        <WrenchIcon
+          className="size-4"
+          style={{ color: theme.palette.text.secondary }}
+        />
+        <Typography
+          component="span"
+          sx={{ fontWeight: 500, fontSize: 14 }}
+          variant="body2"
+        >
+          {title ?? type.split("-").slice(1).join("-")}
+        </Typography>
+        {getStatusBadge(state)}
+      </div>
+      <ChevronDownIcon
+        className="size-4 transition-transform group-data-[state=open]:rotate-180"
+        style={{ color: theme.palette.text.secondary }}
+      />
+    </CollapsibleTrigger>
+  );
+};
 
 export type ToolContentProps = ComponentProps<typeof CollapsibleContent>;
 
 export const ToolContent = ({ className, ...props }: ToolContentProps) => (
   <CollapsibleContent
     className={cn(
-      "data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 text-popover-foreground outline-none data-[state=closed]:animate-out data-[state=open]:animate-in",
+      "data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 outline-none data-[state=closed]:animate-out data-[state=open]:animate-in",
       className
     )}
     {...props}
@@ -108,16 +124,30 @@ export type ToolInputProps = ComponentProps<"div"> & {
   input: ToolUIPart["input"];
 };
 
-export const ToolInput = ({ className, input, ...props }: ToolInputProps) => (
-  <div className={cn("space-y-2 overflow-hidden p-4", className)} {...props}>
-    <h4 className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
-      Parameters
-    </h4>
-    <div className="rounded-md bg-muted/50">
-      <CodeBlock code={JSON.stringify(input, null, 2)} language="json" />
+export const ToolInput = ({ className, input, ...props }: ToolInputProps) => {
+  const theme = useTheme();
+
+  return (
+    <div className={cn("space-y-2 overflow-hidden p-4", className)} {...props}>
+      <Typography
+        color="text.secondary"
+        component="h4"
+        sx={{
+          fontWeight: 500,
+          fontSize: 12,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+        }}
+        variant="caption"
+      >
+        Parameters
+      </Typography>
+      <div className="rounded-md" style={{ backgroundColor: theme.palette.action.hover }}>
+        <CodeBlock code={JSON.stringify(input, null, 2)} language="json" />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export type ToolOutputProps = ComponentProps<"div"> & {
   output: ToolUIPart["output"];
@@ -130,6 +160,8 @@ export const ToolOutput = ({
   errorText,
   ...props
 }: ToolOutputProps) => {
+  const theme = useTheme();
+
   if (!(output || errorText)) {
     return null;
   }
@@ -146,16 +178,27 @@ export const ToolOutput = ({
 
   return (
     <div className={cn("space-y-2 p-4", className)} {...props}>
-      <h4 className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
+      <Typography
+        color="text.secondary"
+        component="h4"
+        sx={{
+          fontWeight: 500,
+          fontSize: 12,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+        }}
+        variant="caption"
+      >
         {errorText ? "Error" : "Result"}
-      </h4>
+      </Typography>
       <div
-        className={cn(
-          "overflow-x-auto rounded-md text-xs [&_table]:w-full",
-          errorText
-            ? "bg-destructive/10 text-destructive"
-            : "bg-muted/50 text-foreground"
-        )}
+        className="overflow-x-auto rounded-md text-xs [&_table]:w-full"
+        style={{
+          backgroundColor: errorText
+            ? alpha(theme.palette.error.main, 0.1)
+            : theme.palette.action.hover,
+          color: errorText ? theme.palette.error.main : theme.palette.text.primary,
+        }}
       >
         {errorText && <div>{errorText}</div>}
         {Output}

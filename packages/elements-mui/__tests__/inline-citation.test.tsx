@@ -168,7 +168,7 @@ describe("InlineCitationCarouselIndex", () => {
         </InlineCitationCarouselContent>
       </InlineCitationCarousel>
     );
-    const indexDiv = container.querySelector("[count='5'][current='2']");
+    const indexDiv = container.querySelector("[data-count='5'][data-current='2']");
     expect(indexDiv).toBeInTheDocument();
   });
 

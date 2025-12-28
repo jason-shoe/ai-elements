@@ -2,10 +2,15 @@
 
 import Divider from "@mui/material/Divider";
 import MuiTooltip from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
 import { BookmarkIcon, type LucideProps } from "lucide-react";
 import type { ComponentProps, HTMLAttributes } from "react";
 import { Button } from "./ui/button";
 import { cn } from "./ui/cn";
+
+const CheckpointRoot = styled("div")(({ theme }) => ({
+  color: theme.palette.text.secondary,
+}));
 
 export type CheckpointProps = HTMLAttributes<HTMLDivElement>;
 
@@ -14,13 +19,13 @@ export const Checkpoint = ({
   children,
   ...props
 }: CheckpointProps) => (
-  <div
-    className={cn("flex items-center gap-0.5 text-muted-foreground overflow-hidden", className)}
+  <CheckpointRoot
+    className={cn("flex items-center gap-0.5 overflow-hidden", className)}
     {...props}
   >
     {children}
     <Divider flexItem orientation="vertical" />
-  </div>
+  </CheckpointRoot>
 );
 
 export type CheckpointIconProps = LucideProps;

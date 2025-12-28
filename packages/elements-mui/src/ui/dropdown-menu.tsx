@@ -1,5 +1,6 @@
 "use client";
 
+import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import type { MenuProps } from "@mui/material/Menu";
@@ -172,8 +173,12 @@ export function DropdownMenuContent({
       open={open && resolvedAnchorEl != null}
       slotProps={{
         paper: {
-          className: cn("rounded-md border bg-background shadow-md", className),
-          style: sideOffset ? { marginTop: sideOffset } : undefined,
+          className: cn("rounded-md border shadow-md", className),
+          sx: {
+            bgcolor: "background.paper",
+            borderColor: "divider",
+            ...(sideOffset != null ? { mt: `${sideOffset}px` } : null),
+          },
         },
       }}
       transformOrigin={transformOrigin}
@@ -250,9 +255,11 @@ export function DropdownMenuSeparator({
   ...props
 }: DropdownMenuSeparatorProps) {
   return (
-    <hr
-      className={cn("my-1 border-border", className)}
+    <Box
+      className={cn(className)}
       data-slot="dropdown-menu-separator"
+      component="hr"
+      sx={{ my: 1, border: 0, borderTop: 1, borderColor: "divider" }}
       role="separator"
       {...props}
     />

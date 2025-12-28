@@ -1,5 +1,8 @@
 "use client";
 
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 import type { ChatStatus, FileUIPart } from "ai";
 import {
   CornerDownLeftIcon,
@@ -281,6 +284,19 @@ export type PromptInputAttachmentProps = HTMLAttributes<HTMLDivElement> & {
   className?: string;
 };
 
+const PromptInputAttachmentRoot = styled("div")(({ theme }) => ({
+  borderColor: theme.palette.divider,
+  color: theme.palette.text.secondary,
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+    color: theme.palette.text.primary,
+  },
+}));
+
+const PromptInputAttachmentIconBackground = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+}));
+
 export function PromptInputAttachment({
   data,
   className,
@@ -299,16 +315,16 @@ export function PromptInputAttachment({
   return (
     <PromptInputHoverCard>
       <HoverCardTrigger asChild>
-        <div
+        <PromptInputAttachmentRoot
           className={cn(
-            "group relative flex h-8 cursor-pointer select-none items-center gap-1.5 rounded-md border border-border px-1.5 font-medium text-sm transition-all hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+            "group relative flex h-8 cursor-pointer select-none items-center gap-1.5 rounded-md border px-1.5 font-medium text-sm transition-all",
             className
           )}
           key={data.id}
           {...props}
         >
           <div className="relative size-5 shrink-0">
-            <div className="absolute inset-0 flex size-5 items-center justify-center overflow-hidden rounded bg-background transition-opacity group-hover:opacity-0">
+            <PromptInputAttachmentIconBackground className="absolute inset-0 flex size-5 items-center justify-center overflow-hidden rounded transition-opacity group-hover:opacity-0">
               {isImage ? (
                 <img
                   alt={filename || "attachment"}
@@ -318,11 +334,14 @@ export function PromptInputAttachment({
                   width={20}
                 />
               ) : (
-                <div className="flex size-5 items-center justify-center text-muted-foreground">
+                <Box
+                  className="flex size-5 items-center justify-center"
+                  sx={{ color: "text.secondary" }}
+                >
                   <PaperclipIcon className="size-3" />
-                </div>
+                </Box>
               )}
-            </div>
+            </PromptInputAttachmentIconBackground>
             <Button
               aria-label="Remove attachment"
               className="absolute inset-0 size-5 cursor-pointer rounded p-0 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 [&>svg]:size-2.5"
@@ -338,8 +357,10 @@ export function PromptInputAttachment({
             </Button>
           </div>
 
-          <span className="flex-1 truncate">{attachmentLabel}</span>
-        </div>
+          <Typography className="flex-1 truncate" component="span" variant="inherit">
+            {attachmentLabel}
+          </Typography>
+        </PromptInputAttachmentRoot>
       </HoverCardTrigger>
       <PromptInputHoverCardContent className="w-auto p-2">
         <div className="w-auto space-y-3">
@@ -360,9 +381,19 @@ export function PromptInputAttachment({
                 {filename || (isImage ? "Image" : "Attachment")}
               </h4>
               {data.mediaType && (
-                <p className="truncate font-mono text-muted-foreground text-xs">
+                <Typography
+                  className="truncate font-mono"
+                  color="text.secondary"
+                  component="p"
+                  sx={{
+                    fontSize: 12,
+                    fontFamily:
+                      'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                  }}
+                  variant="caption"
+                >
                   {data.mediaType}
-                </p>
+                </Typography>
               )}
             </div>
           </div>
@@ -1119,6 +1150,7 @@ export const PromptInputSpeechButton = ({
   className,
   textareaRef,
   onTranscriptionChange,
+  sx,
   ...props
 }: PromptInputSpeechButtonProps) => {
   const [isListening, setIsListening] = useState(false);
@@ -1198,15 +1230,23 @@ export const PromptInputSpeechButton = ({
     }
   }, [recognition, isListening]);
 
+  const mergedSx = isListening
+    ? ([
+        { bgcolor: "action.selected", color: "text.primary" },
+        ...(Array.isArray(sx) ? sx : sx != null ? [sx] : []),
+      ] as PromptInputSpeechButtonProps["sx"])
+    : sx;
+
   return (
     <PromptInputButton
       className={cn(
         "relative transition-all duration-200",
-        isListening && "animate-pulse bg-accent text-accent-foreground",
+        isListening && "animate-pulse",
         className
       )}
       disabled={!recognition}
       onClick={toggleListening}
+      sx={mergedSx}
       {...props}
     >
       <MicIcon className="size-4" />
@@ -1224,14 +1264,23 @@ export type PromptInputSelectTriggerProps = ComponentProps<
   typeof SelectTrigger
 >;
 
+const PromptInputSelectTriggerRoot = styled(SelectTrigger)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  "&:hover": {
+    color: theme.palette.text.primary,
+  },
+  "&[aria-expanded='true']": {
+    color: theme.palette.text.primary,
+  },
+}));
+
 export const PromptInputSelectTrigger = ({
   className,
   ...props
 }: PromptInputSelectTriggerProps) => (
-  <SelectTrigger
+  <PromptInputSelectTriggerRoot
     className={cn(
-      "border-none bg-transparent font-medium text-muted-foreground shadow-none transition-colors",
-      "hover:bg-accent hover:text-foreground aria-expanded:bg-accent aria-expanded:text-foreground",
+      "border-none bg-transparent font-medium shadow-none transition-colors",
       className
     )}
     {...props}
@@ -1309,15 +1358,22 @@ export const PromptInputTab = ({
 
 export type PromptInputTabLabelProps = HTMLAttributes<HTMLHeadingElement>;
 
+const PromptInputTabItemRoot = styled("div")(({ theme }) => ({
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
+
 export const PromptInputTabLabel = ({
   className,
   ...props
 }: PromptInputTabLabelProps) => (
-  <h3
-    className={cn(
-      "mb-2 px-3 font-medium text-muted-foreground text-xs",
-      className
-    )}
+  <Typography
+    className={cn("mb-2 px-3 font-medium", className)}
+    color="text.secondary"
+    component="h3"
+    sx={{ fontSize: 12 }}
+    variant="caption"
     {...props}
   />
 );
@@ -1337,9 +1393,9 @@ export const PromptInputTabItem = ({
   className,
   ...props
 }: PromptInputTabItemProps) => (
-  <div
+  <PromptInputTabItemRoot
     className={cn(
-      "flex items-center gap-2 px-3 py-2 text-xs hover:bg-accent",
+      "flex items-center gap-2 px-3 py-2 text-xs",
       className
     )}
     {...props}

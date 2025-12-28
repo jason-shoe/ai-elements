@@ -1,5 +1,6 @@
 "use client";
 
+import Box from "@mui/material/Box";
 import { CheckIcon, CopyIcon } from "lucide-react";
 import {
   type ComponentProps,
@@ -13,6 +14,7 @@ import {
 import { type BundledLanguage, codeToHtml, type ShikiTransformer } from "shiki";
 import { Button } from "./ui/button";
 import { cn } from "./ui/cn";
+import { useTheme } from "@mui/material/styles";
 
 type CodeBlockProps = HTMLAttributes<HTMLDivElement> & {
   code: string;
@@ -41,7 +43,7 @@ const lineNumberTransformer: ShikiTransformer = {
           "mr-4",
           "text-right",
           "select-none",
-          "text-muted-foreground",
+          "opacity-60",
         ],
       },
       children: [{ type: "text", value: String(line) }],
@@ -80,6 +82,7 @@ export const CodeBlock = ({
   children,
   ...props
 }: CodeBlockProps) => {
+  const theme = useTheme();
   const [html, setHtml] = useState<string>("");
   const [darkHtml, setDarkHtml] = useState<string>("");
   const mounted = useRef(false);
@@ -98,25 +101,38 @@ export const CodeBlock = ({
     };
   }, [code, language, showLineNumbers]);
 
+  const renderedHtml = theme.palette.mode === "dark" ? darkHtml : html;
+
   return (
     <CodeBlockContext.Provider value={{ code }}>
-      <div
+      <Box
         className={cn(
-          "group relative w-full overflow-hidden rounded-md border bg-background text-foreground",
+          "group relative w-full overflow-hidden rounded-md border",
           className
         )}
+        sx={{
+          bgcolor: "background.paper",
+          borderColor: "divider",
+          color: "text.primary",
+          "& pre": {
+            margin: 0,
+            padding: 2,
+            backgroundColor: "transparent",
+            fontSize: 14,
+          },
+          "& code": {
+            fontFamily:
+              'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+            fontSize: 14,
+          },
+        }}
         {...props}
       >
         <div className="relative">
           <div
-            className="overflow-auto dark:hidden [&>pre]:m-0 [&>pre]:bg-background! [&>pre]:p-4 [&>pre]:text-foreground! [&>pre]:text-sm [&_code]:font-mono [&_code]:text-sm"
+            className="overflow-auto"
             // biome-ignore lint/security/noDangerouslySetInnerHtml: "this is needed."
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
-          <div
-            className="hidden overflow-auto dark:block [&>pre]:m-0 [&>pre]:bg-background! [&>pre]:p-4 [&>pre]:text-foreground! [&>pre]:text-sm [&_code]:font-mono [&_code]:text-sm"
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: "this is needed."
-            dangerouslySetInnerHTML={{ __html: darkHtml }}
+            dangerouslySetInnerHTML={{ __html: renderedHtml }}
           />
           {children && (
             <div className="absolute top-2 right-2 flex items-center gap-2">
@@ -124,7 +140,7 @@ export const CodeBlock = ({
             </div>
           )}
         </div>
-      </div>
+      </Box>
     </CodeBlockContext.Provider>
   );
 };

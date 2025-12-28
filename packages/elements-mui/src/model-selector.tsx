@@ -1,6 +1,8 @@
 import MuiDialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle";
+import Typography from "@mui/material/Typography";
+import { styled, useTheme } from "@mui/material/styles";
 import {
   cloneElement,
   type ComponentProps,
@@ -24,6 +26,15 @@ import {
   CommandShortcut,
 } from "./ui/command";
 import { cn } from "./ui/cn";
+
+const ModelSelectorLogoGroupRoot = styled("div")(({ theme }) => ({
+  "& > img": {
+    borderRadius: 9999,
+    backgroundColor: theme.palette.background.paper,
+    padding: 1,
+    border: `1px solid ${theme.palette.divider}`,
+  },
+}));
 
 type ModelSelectorContextValue = {
   open: boolean;
@@ -299,16 +310,24 @@ export const ModelSelectorLogo = ({
   provider,
   className,
   ...props
-}: ModelSelectorLogoProps) => (
-  <img
-    {...props}
-    alt={`${provider} logo`}
-    className={cn("size-3 dark:invert", className)}
-    height={12}
-    src={`https://models.dev/logos/${provider}.svg`}
-    width={12}
-  />
-);
+}: ModelSelectorLogoProps) => {
+  const theme = useTheme();
+
+  return (
+    <img
+      {...props}
+      alt={`${provider} logo`}
+      className={cn("size-3", className)}
+      height={12}
+      src={`https://models.dev/logos/${provider}.svg`}
+      style={{
+        filter: theme.palette.mode === "dark" ? "invert(1)" : "none",
+        ...props.style,
+      }}
+      width={12}
+    />
+  );
+};
 
 export type ModelSelectorLogoGroupProps = ComponentProps<"div">;
 
@@ -316,9 +335,9 @@ export const ModelSelectorLogoGroup = ({
   className,
   ...props
 }: ModelSelectorLogoGroupProps) => (
-  <div
+  <ModelSelectorLogoGroupRoot
     className={cn(
-      "-space-x-1 flex shrink-0 items-center [&>img]:rounded-full [&>img]:bg-background [&>img]:p-px [&>img]:ring-1 dark:[&>img]:bg-foreground",
+      "-space-x-1 flex shrink-0 items-center",
       className
     )}
     {...props}
@@ -331,5 +350,10 @@ export const ModelSelectorName = ({
   className,
   ...props
 }: ModelSelectorNameProps) => (
-  <span className={cn("flex-1 truncate text-left", className)} {...props} />
+  <Typography
+    className={cn("flex-1 truncate text-left", className)}
+    component="span"
+    variant="inherit"
+    {...props}
+  />
 );

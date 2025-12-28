@@ -1,15 +1,35 @@
 "use client";
 
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 import type { ComponentProps } from "react";
 import { cn } from "./cn";
+
+const CommandRoot = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  borderColor: theme.palette.divider,
+  color: theme.palette.text.primary,
+}));
+
+const CommandInputField = styled("input")(({ theme }) => ({
+  "&::placeholder": {
+    color: theme.palette.text.secondary,
+    opacity: 1,
+  },
+}));
+
+const CommandSeparatorRoot = styled("hr")(({ theme }) => ({
+  backgroundColor: theme.palette.divider,
+  border: 0,
+}));
 
 export type CommandProps = ComponentProps<"div">;
 
 export function Command({ className, ...props }: CommandProps) {
   return (
-    <div
+    <CommandRoot
       className={cn(
-        "flex h-full w-full flex-col overflow-hidden rounded-md border bg-background text-foreground",
+        "flex h-full w-full flex-col overflow-hidden rounded-md border",
         className
       )}
       data-slot="command"
@@ -26,9 +46,9 @@ export function CommandInput({ className, ...props }: CommandInputProps) {
       className="flex h-9 items-center gap-2 border-b px-3"
       data-slot="command-input-wrapper"
     >
-      <input
+      <CommandInputField
         className={cn(
-          "placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none",
+          "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none",
           className
         )}
         data-slot="command-input"
@@ -68,9 +88,15 @@ export function CommandGroup({ className, heading, children, ...props }: Command
   return (
     <div className={cn("overflow-hidden p-1", className)} data-slot="command-group" {...props}>
       {heading ? (
-        <div className="px-2 py-1.5 text-muted-foreground text-xs font-medium">
+        <Typography
+          className="px-2 py-1.5 font-medium"
+          color="text.secondary"
+          component="div"
+          sx={{ fontSize: 12 }}
+          variant="caption"
+        >
           {heading}
-        </div>
+        </Typography>
       ) : null}
       <div>{children}</div>
     </div>
@@ -116,8 +142,8 @@ export type CommandSeparatorProps = ComponentProps<"hr">;
 
 export function CommandSeparator({ className, ...props }: CommandSeparatorProps) {
   return (
-    <hr
-      className={cn("bg-border -mx-1 my-1 h-px border-0", className)}
+    <CommandSeparatorRoot
+      className={cn("-mx-1 my-1 h-px", className)}
       data-slot="command-separator"
       role="separator"
       {...props}
@@ -129,9 +155,13 @@ export type CommandShortcutProps = ComponentProps<"span">;
 
 export function CommandShortcut({ className, ...props }: CommandShortcutProps) {
   return (
-    <span
-      className={cn("ml-auto text-muted-foreground text-xs tracking-widest", className)}
+    <Typography
+      className={cn("ml-auto tracking-widest", className)}
+      color="text.secondary"
       data-slot="command-shortcut"
+      component="span"
+      sx={{ fontSize: 12 }}
+      variant="caption"
       {...props}
     />
   );
