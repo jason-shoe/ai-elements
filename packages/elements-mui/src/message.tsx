@@ -54,10 +54,10 @@ export const MessageContent = ({
         marginLeft: "auto",
         ...(variant === "contained"
           ? {
-              borderRadius: 8,
+              borderRadius: 4,
               backgroundColor: theme.palette.action.selected,
-              paddingInline: 16,
-              paddingBlock: 12,
+              paddingInline: 2,
+              paddingBlock: 0.5,
             }
           : null),
       },

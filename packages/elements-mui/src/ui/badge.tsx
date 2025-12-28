@@ -56,7 +56,7 @@ const badgeSx: SxProps<Theme> = {
     display: "inline-flex",
     alignItems: "center",
     gap: 6,
-    paddingInline: 8,
+    paddingInline: 0.5,
     paddingBlock: 0,
     lineHeight: 1,
     whiteSpace: "nowrap",
