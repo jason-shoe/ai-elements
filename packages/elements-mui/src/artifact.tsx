@@ -1,17 +1,29 @@
 "use client";
 
 import MuiTooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 import { type LucideIcon, XIcon } from "lucide-react";
 import type { ComponentProps, HTMLAttributes } from "react";
 import { Button } from "./ui/button";
 import { cn } from "./ui/cn";
 
+const ArtifactRoot = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  borderColor: theme.palette.divider,
+}));
+
+const ArtifactHeaderRoot = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.action.hover,
+  borderColor: theme.palette.divider,
+}));
+
 export type ArtifactProps = HTMLAttributes<HTMLDivElement>;
 
 export const Artifact = ({ className, ...props }: ArtifactProps) => (
-  <div
+  <ArtifactRoot
     className={cn(
-      "flex flex-col overflow-hidden rounded-lg border bg-background shadow-sm",
+      "flex flex-col overflow-hidden rounded-lg border shadow-sm",
       className
     )}
     {...props}
@@ -24,9 +36,9 @@ export const ArtifactHeader = ({
   className,
   ...props
 }: ArtifactHeaderProps) => (
-  <div
+  <ArtifactHeaderRoot
     className={cn(
-      "flex items-center justify-between border-b bg-muted/50 px-4 py-3",
+      "flex items-center justify-between border-b px-4 py-3",
       className
     )}
     {...props}
@@ -43,11 +55,12 @@ export const ArtifactClose = ({
   ...props
 }: ArtifactCloseProps) => (
   <Button
-    className={cn(
-      "size-8 p-0 text-muted-foreground hover:text-foreground",
-      className
-    )}
+    className={cn("size-8 p-0", className)}
     size={size}
+    sx={{
+      color: "text.secondary",
+      "&:hover": { color: "text.primary" },
+    }}
     type="button"
     variant={variant}
     {...props}
@@ -60,8 +73,12 @@ export const ArtifactClose = ({
 export type ArtifactTitleProps = HTMLAttributes<HTMLParagraphElement>;
 
 export const ArtifactTitle = ({ className, ...props }: ArtifactTitleProps) => (
-  <p
-    className={cn("font-medium text-foreground text-sm", className)}
+  <Typography
+    className={cn(className)}
+    color="text.primary"
+    component="p"
+    sx={{ fontWeight: 500, fontSize: 14 }}
+    variant="body2"
     {...props}
   />
 );
@@ -72,7 +89,14 @@ export const ArtifactDescription = ({
   className,
   ...props
 }: ArtifactDescriptionProps) => (
-  <p className={cn("text-muted-foreground text-sm", className)} {...props} />
+  <Typography
+    className={cn(className)}
+    color="text.secondary"
+    component="p"
+    sx={{ fontSize: 14 }}
+    variant="body2"
+    {...props}
+  />
 );
 
 export type ArtifactActionsProps = HTMLAttributes<HTMLDivElement>;
@@ -102,11 +126,12 @@ export const ArtifactAction = ({
 }: ArtifactActionProps) => {
   const button = (
     <Button
-      className={cn(
-        "size-8 p-0 text-muted-foreground hover:text-foreground",
-        className
-      )}
+      className={cn("size-8 p-0", className)}
       size={size}
+      sx={{
+        color: "text.secondary",
+        "&:hover": { color: "text.primary" },
+      }}
       type="button"
       variant={variant}
       {...props}

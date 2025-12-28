@@ -1,5 +1,6 @@
 "use client";
 
+import Box from "@mui/material/Box";
 import Popover from "@mui/material/Popover";
 import {
   cloneElement,
@@ -180,12 +181,13 @@ export function HoverCardContent({
 
   if (open && anchorEl == null) {
     return (
-      <div
-        className={cn("rounded-md border bg-background shadow-md", className)}
+      <Box
+        className={cn("rounded-md border shadow-md", className)}
         data-slot="hover-card-content"
+        sx={{ bgcolor: "background.paper", borderColor: "divider" }}
       >
         {children}
-      </div>
+      </Box>
     );
   }
 
@@ -198,7 +200,8 @@ export function HoverCardContent({
       open={open && anchorEl != null}
       slotProps={{
         paper: {
-          className: cn("rounded-md border bg-background shadow-md", className),
+          className: cn("rounded-md border shadow-md", className),
+          sx: { bgcolor: "background.paper", borderColor: "divider" },
         },
       }}
       {...props}

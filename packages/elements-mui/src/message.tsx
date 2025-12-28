@@ -1,6 +1,9 @@
 "use client";
 
+import Box from "@mui/material/Box";
 import MuiTooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import { alpha } from "@mui/material/styles";
 import type { FileUIPart, UIMessage } from "ai";
 import {
   ChevronLeftIcon,
@@ -39,19 +42,33 @@ export const MessageContent = ({
   variant = "contained",
   ...props
 }: MessageContentProps) => (
-  <div
+  <Box
     className={cn(
-      "is-user:dark flex w-fit max-w-full min-w-0 flex-col gap-2 overflow-hidden text-sm",
-      variant === "contained" &&
-        "group-[.is-user]:ml-auto group-[.is-user]:rounded-lg group-[.is-user]:bg-secondary group-[.is-user]:px-4 group-[.is-user]:py-3 group-[.is-user]:text-foreground",
-      variant === "flat" && "group-[.is-user]:ml-auto group-[.is-user]:text-foreground",
-      "group-[.is-assistant]:text-foreground",
+      "flex w-fit max-w-full min-w-0 flex-col gap-2 overflow-hidden",
       className
     )}
+    sx={(theme) => ({
+      fontSize: 14,
+      color: theme.palette.text.primary,
+      ".is-user &": {
+        marginLeft: "auto",
+        ...(variant === "contained"
+          ? {
+              borderRadius: 8,
+              backgroundColor: theme.palette.action.selected,
+              paddingInline: 16,
+              paddingBlock: 12,
+            }
+          : null),
+      },
+      ".is-assistant &": {
+        color: theme.palette.text.primary,
+      },
+    })}
     {...props}
   >
     {children}
-  </div>
+  </Box>
 );
 
 export type MessageActionsProps = ComponentProps<"div">;
@@ -288,15 +305,19 @@ export const MessageBranchPage = ({
   const { currentBranch, totalBranches } = useMessageBranch();
 
   return (
-    <span
+    <Typography
       className={cn(
-        "flex items-center gap-2 rounded-md border bg-muted px-4 font-medium text-muted-foreground text-sm shadow-xs",
+        "flex items-center gap-2 rounded-md border px-4 font-medium shadow-xs",
         className
       )}
+      color="text.secondary"
+      component="span"
+      sx={{ bgcolor: "action.hover", borderColor: "divider", fontSize: 14 }}
+      variant="body2"
       {...props}
     >
       {currentBranch + 1} of {totalBranches}
-    </span>
+    </Typography>
   );
 };
 
@@ -355,11 +376,16 @@ export function MessageAttachment({
           {onRemove && (
             <Button
               aria-label="Remove attachment"
-              className="absolute top-2 right-2 size-6 rounded-full bg-background/80 p-0 opacity-0 backdrop-blur-sm transition-opacity hover:bg-background group-hover:opacity-100 [&>svg]:size-3"
+              className="absolute top-2 right-2 size-6 rounded-full p-0 opacity-0 transition-opacity group-hover:opacity-100 [&>svg]:size-3"
               onClick={(e) => {
                 e.stopPropagation();
                 onRemove();
               }}
+              sx={(theme) => ({
+                bgcolor: alpha(theme.palette.background.paper, 0.8),
+                backdropFilter: "blur(6px)",
+                "&:hover": { bgcolor: theme.palette.background.paper },
+              })}
               type="button"
               variant="ghost"
             >
@@ -371,18 +397,22 @@ export function MessageAttachment({
       ) : (
         <>
           <MuiTooltip title={attachmentLabel}>
-            <div className="flex size-full shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+            <Box
+              className="flex size-full shrink-0 items-center justify-center rounded-lg"
+              sx={{ bgcolor: "action.hover", color: "text.secondary" }}
+            >
               <PaperclipIcon className="size-4" />
-            </div>
+            </Box>
           </MuiTooltip>
           {onRemove && (
             <Button
               aria-label="Remove attachment"
-              className="size-6 shrink-0 rounded-full p-0 opacity-0 transition-opacity hover:bg-accent group-hover:opacity-100 [&>svg]:size-3"
+              className="size-6 shrink-0 rounded-full p-0 opacity-0 transition-opacity group-hover:opacity-100 [&>svg]:size-3"
               onClick={(e) => {
                 e.stopPropagation();
                 onRemove();
               }}
+              sx={{ "&:hover": { bgcolor: "action.hover" } }}
               type="button"
               variant="ghost"
             >

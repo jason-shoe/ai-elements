@@ -1,16 +1,34 @@
 "use client";
 
 import TextareaAutosize from "@mui/material/TextareaAutosize";
+import { alpha, styled } from "@mui/material/styles";
 import type { ComponentProps } from "react";
 import { forwardRef } from "react";
 import { Button, type ButtonProps } from "./button";
 import { cn } from "./cn";
 
+const InputGroupRoot = styled("div")(({ theme }) => ({
+  borderColor: theme.palette.divider,
+  backgroundColor: theme.palette.action.hover,
+  "&:has([data-slot='input-group-control']:focus-visible)": {
+    borderColor: theme.palette.primary.main,
+    boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, 0.25)}`,
+  },
+  "&:has([aria-invalid='true'])": {
+    borderColor: theme.palette.error.main,
+    boxShadow: `0 0 0 3px ${alpha(theme.palette.error.main, 0.25)}`,
+  },
+}));
+
+const InputGroupAddonRoot = styled("div")(({ theme }) => ({
+  color: theme.palette.text.secondary,
+}));
+
 export function InputGroup({ className, ...props }: ComponentProps<"div">) {
   return (
-    <div
+    <InputGroupRoot
       className={cn(
-        "group/input-group border-input dark:bg-input/30 relative flex w-full items-center rounded-md border shadow-xs transition-[color,box-shadow] outline-none",
+        "group/input-group relative flex w-full items-center rounded-md border shadow-xs transition-[color,box-shadow] outline-none",
         "h-9 min-w-0 has-[>textarea]:h-auto",
 
         // Variants based on alignment.
@@ -18,12 +36,6 @@ export function InputGroup({ className, ...props }: ComponentProps<"div">) {
         "has-[>[data-align=inline-end]]:[&>input]:pr-2",
         "has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3",
         "has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3",
-
-        // Focus state.
-        "has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot=input-group-control]:focus-visible]:ring-[3px]",
-
-        // Error state.
-        "has-[[data-slot][aria-invalid=true]]:ring-destructive/20 has-[[data-slot][aria-invalid=true]]:border-destructive dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40",
         className
       )}
       data-slot="input-group"
@@ -43,9 +55,9 @@ export function InputGroupAddon({
   ...props
 }: InputGroupAddonProps) {
   return (
-    <div
+    <InputGroupAddonRoot
       className={cn(
-        "text-muted-foreground flex h-auto cursor-text items-center justify-center gap-2 py-1.5 font-medium text-sm select-none [&>svg:not([class*='size-'])]:size-4 group-data-[disabled=true]/input-group:opacity-50",
+        "flex h-auto cursor-text items-center justify-center gap-2 py-1.5 font-medium text-sm select-none [&>svg:not([class*='size-'])]:size-4 group-data-[disabled=true]/input-group:opacity-50",
         align === "inline-start" &&
           "order-first pl-3 has-[>button]:ml-[-0.45rem] has-[>kbd]:ml-[-0.35rem]",
         align === "inline-end" &&
@@ -86,6 +98,7 @@ export function InputGroupButton({
   type = "button",
   variant = "ghost",
   size = "xs",
+  sx,
   ...props
 }: InputGroupButtonProps) {
   const mappedSize =
@@ -118,7 +131,7 @@ export function InputGroupButton({
       )}
       data-size={size}
       size={mappedSize}
-      sx={sizeSx}
+      sx={sx != null ? ([sizeSx, sx] as ButtonProps["sx"]) : sizeSx}
       type={type}
       variant={variant}
       {...props}

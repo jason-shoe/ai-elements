@@ -1,5 +1,7 @@
 "use client";
 
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 import type { LanguageModelUsage } from "ai";
 import { type ComponentProps, createContext, useContext } from "react";
 import { getUsage } from "tokenlens";
@@ -7,6 +9,10 @@ import { Button } from "./ui/button";
 import { cn } from "./ui/cn";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { Progress } from "./ui/progress";
+
+const ContextFooterRoot = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.action.hover,
+}));
 
 const PERCENT_MAX = 100;
 const ICON_RADIUS = 10;
@@ -111,9 +117,14 @@ export const ContextTrigger = ({ children, ...props }: ContextTriggerProps) => {
     <HoverCardTrigger asChild>
       {children ?? (
         <Button type="button" variant="ghost" {...props}>
-          <span className="font-medium text-muted-foreground">
+          <Typography
+            color="text.secondary"
+            component="span"
+            sx={{ fontWeight: 500, fontSize: 14 }}
+            variant="body2"
+          >
             {renderedPercent}
-          </span>
+          </Typography>
           <ContextIcon />
         </Button>
       )}
@@ -158,13 +169,24 @@ export const ContextContentHeader = ({
       {children ?? (
         <>
           <div className="flex items-center justify-between gap-3 text-xs">
-            <p>{displayPct}</p>
-            <p className="font-mono text-muted-foreground">
+            <Typography component="p" sx={{ fontSize: 12 }} variant="caption">
+              {displayPct}
+            </Typography>
+            <Typography
+              color="text.secondary"
+              component="p"
+              sx={{
+                fontSize: 12,
+                fontFamily:
+                  'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+              }}
+              variant="caption"
+            >
               {used} / {total}
-            </p>
+            </Typography>
           </div>
           <div className="space-y-2">
-            <Progress className="bg-muted" value={usedPercent * PERCENT_MAX} />
+            <Progress value={usedPercent * PERCENT_MAX} />
           </div>
         </>
       )}
@@ -207,20 +229,29 @@ export const ContextContentFooter = ({
   }).format(costUSD ?? 0);
 
   return (
-    <div
+    <ContextFooterRoot
       className={cn(
-        "flex w-full items-center justify-between gap-3 bg-secondary p-3 text-xs",
+        "flex w-full items-center justify-between gap-3 p-3 text-xs",
         className
       )}
       {...props}
     >
       {children ?? (
         <>
-          <span className="text-muted-foreground">Total cost</span>
-          <span>{totalCost}</span>
+          <Typography
+            color="text.secondary"
+            component="span"
+            sx={{ fontSize: 12 }}
+            variant="caption"
+          >
+            Total cost
+          </Typography>
+          <Typography component="span" sx={{ fontSize: 12 }} variant="caption">
+            {totalCost}
+          </Typography>
         </>
       )}
-    </div>
+    </ContextFooterRoot>
   );
 };
 
@@ -258,7 +289,14 @@ export const ContextInputUsage = ({
       className={cn("flex items-center justify-between text-xs", className)}
       {...props}
     >
-      <span className="text-muted-foreground">Input</span>
+      <Typography
+        color="text.secondary"
+        component="span"
+        sx={{ fontSize: 12 }}
+        variant="caption"
+      >
+        Input
+      </Typography>
       <TokensWithCost costText={inputCostText} tokens={inputTokens} />
     </div>
   );
@@ -298,7 +336,14 @@ export const ContextOutputUsage = ({
       className={cn("flex items-center justify-between text-xs", className)}
       {...props}
     >
-      <span className="text-muted-foreground">Output</span>
+      <Typography
+        color="text.secondary"
+        component="span"
+        sx={{ fontSize: 12 }}
+        variant="caption"
+      >
+        Output
+      </Typography>
       <TokensWithCost costText={outputCostText} tokens={outputTokens} />
     </div>
   );
@@ -338,7 +383,14 @@ export const ContextReasoningUsage = ({
       className={cn("flex items-center justify-between text-xs", className)}
       {...props}
     >
-      <span className="text-muted-foreground">Reasoning</span>
+      <Typography
+        color="text.secondary"
+        component="span"
+        sx={{ fontSize: 12 }}
+        variant="caption"
+      >
+        Reasoning
+      </Typography>
       <TokensWithCost costText={reasoningCostText} tokens={reasoningTokens} />
     </div>
   );
@@ -378,7 +430,14 @@ export const ContextCacheUsage = ({
       className={cn("flex items-center justify-between text-xs", className)}
       {...props}
     >
-      <span className="text-muted-foreground">Cache</span>
+      <Typography
+        color="text.secondary"
+        component="span"
+        sx={{ fontSize: 12 }}
+        variant="caption"
+      >
+        Cache
+      </Typography>
       <TokensWithCost costText={cacheCostText} tokens={cacheTokens} />
     </div>
   );
@@ -391,14 +450,21 @@ const TokensWithCost = ({
   tokens?: number;
   costText?: string;
 }) => (
-  <span>
+  <Typography component="span" sx={{ fontSize: 12 }} variant="caption">
     {tokens === undefined
       ? "—"
       : new Intl.NumberFormat("en-US", {
           notation: "compact",
         }).format(tokens)}
     {costText ? (
-      <span className="ml-2 text-muted-foreground">• {costText}</span>
+      <Typography
+        color="text.secondary"
+        component="span"
+        sx={{ ml: 1, fontSize: 12 }}
+        variant="caption"
+      >
+        • {costText}
+      </Typography>
     ) : null}
-  </span>
+  </Typography>
 );

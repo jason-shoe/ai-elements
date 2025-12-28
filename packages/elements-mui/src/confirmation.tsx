@@ -1,6 +1,7 @@
 "use client";
 
 import MuiAlert, { type AlertProps as MuiAlertProps } from "@mui/material/Alert";
+import Typography from "@mui/material/Typography";
 import type { ToolUIPart } from "ai";
 import {
   type ComponentProps,
@@ -90,7 +91,7 @@ export const ConfirmationTitle = ({
   className,
   ...props
 }: ConfirmationTitleProps) => (
-  <span className={cn("inline", className)} {...props} />
+  <Typography className={cn("inline", className)} component="span" variant="inherit" {...props} />
 );
 
 export type ConfirmationRequestProps = {

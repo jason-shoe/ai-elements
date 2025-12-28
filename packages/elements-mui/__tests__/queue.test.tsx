@@ -62,12 +62,12 @@ describe("QueueItemIndicator", () => {
 
   it("renders completed state", () => {
     const { container } = render(<QueueItemIndicator completed />);
-    expect(container.firstChild).toHaveClass("border-muted-foreground/20");
+    expect(container.firstChild).toHaveAttribute("data-completed", "true");
   });
 
   it("renders pending state", () => {
     const { container } = render(<QueueItemIndicator completed={false} />);
-    expect(container.firstChild).toHaveClass("border-muted-foreground/50");
+    expect(container.firstChild).toHaveAttribute("data-completed", "false");
   });
 });
 
@@ -82,14 +82,12 @@ describe("QueueItemContent", () => {
       <QueueItemContent completed>Done</QueueItemContent>
     );
     expect(container.firstChild).toHaveClass("line-through");
-    expect(container.firstChild).toHaveClass("text-muted-foreground/50");
   });
 
   it("applies pending styling", () => {
     const { container } = render(
       <QueueItemContent completed={false}>Pending</QueueItemContent>
     );
-    expect(container.firstChild).toHaveClass("text-muted-foreground");
     expect(container.firstChild).not.toHaveClass("line-through");
   });
 });
@@ -105,7 +103,6 @@ describe("QueueItemDescription", () => {
       <QueueItemDescription completed>Done description</QueueItemDescription>
     );
     expect(container.firstChild).toHaveClass("line-through");
-    expect(container.firstChild).toHaveClass("text-muted-foreground/40");
   });
 });
 

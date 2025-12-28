@@ -1,6 +1,8 @@
 "use client";
 
 import MuiTooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
 import { ChevronDownIcon } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -40,10 +42,12 @@ export const WebPreview = ({
   children,
   defaultUrl = "",
   onUrlChange,
+  style,
   ...props
 }: WebPreviewProps) => {
   const [url, setUrl] = useState(defaultUrl);
   const [consoleOpen, setConsoleOpen] = useState(false);
+  const theme = useTheme();
 
   const handleUrlChange = (newUrl: string) => {
     setUrl(newUrl);
@@ -61,9 +65,10 @@ export const WebPreview = ({
     <WebPreviewContext.Provider value={contextValue}>
       <div
         className={cn(
-          "flex size-full flex-col rounded-lg border bg-card",
+          "flex size-full flex-col rounded-lg border",
           className
         )}
+        style={{ backgroundColor: theme.palette.background.paper, borderColor: theme.palette.divider, ...style }}
         {...props}
       >
         {children}
@@ -101,10 +106,14 @@ export const WebPreviewNavigationButton = ({
   <MuiTooltip title={tooltip ?? ""}>
     <span>
       <Button
-        className="h-8 w-8 min-w-0 p-0 hover:text-foreground"
+        className="h-8 w-8 min-w-0 p-0"
         disabled={disabled}
         onClick={onClick}
         size="icon-sm"
+        sx={{
+          color: "text.secondary",
+          "&:hover": { bgcolor: "action.hover", color: "text.primary" },
+        }}
         type="button"
         variant="ghost"
         {...props}
@@ -192,22 +201,26 @@ export type WebPreviewConsoleProps = ComponentProps<"div"> & {
 
 export const WebPreviewConsole = ({
   className,
+  style,
   logs = [],
   children,
   ...props
 }: WebPreviewConsoleProps) => {
   const { consoleOpen, setConsoleOpen } = useWebPreview();
+  const theme = useTheme();
 
   return (
     <Collapsible
-      className={cn("border-t bg-muted/50 font-mono text-sm", className)}
+      className={cn("border-t font-mono text-sm", className)}
       onOpenChange={setConsoleOpen}
       open={consoleOpen}
+      style={{ backgroundColor: theme.palette.action.hover, ...style }}
       {...props}
     >
       <CollapsibleTrigger asChild>
         <Button
-          className="flex w-full items-center justify-between p-4 text-left font-medium hover:bg-muted/50"
+          className="flex w-full items-center justify-between p-4 text-left font-medium"
+          sx={{ "&:hover": { bgcolor: "action.hover" } }}
           variant="ghost"
         >
           Console
@@ -227,21 +240,31 @@ export const WebPreviewConsole = ({
       >
         <div className="max-h-48 space-y-1 overflow-y-auto">
           {logs.length === 0 ? (
-            <p className="text-muted-foreground">No console output</p>
+            <Typography color="text.secondary" component="p" variant="body2">
+              No console output
+            </Typography>
           ) : (
             logs.map((log, index) => (
               <div
-                className={cn(
-                  "text-xs",
-                  log.level === "error" && "text-destructive",
-                  log.level === "warn" && "text-yellow-600",
-                  log.level === "log" && "text-foreground"
-                )}
+                className="text-xs"
                 key={`${log.timestamp.getTime()}-${index}`}
+                style={{
+                  color:
+                    log.level === "error"
+                      ? theme.palette.error.main
+                      : log.level === "warn"
+                        ? theme.palette.warning.main
+                        : theme.palette.text.primary,
+                }}
               >
-                <span className="text-muted-foreground">
+                <Typography
+                  color="text.secondary"
+                  component="span"
+                  sx={{ fontSize: 12 }}
+                  variant="caption"
+                >
                   {log.timestamp.toLocaleTimeString()}
-                </span>{" "}
+                </Typography>{" "}
                 {log.message}
               </div>
             ))

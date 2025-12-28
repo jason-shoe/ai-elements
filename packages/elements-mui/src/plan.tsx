@@ -1,6 +1,7 @@
 "use client";
 
 import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
 import { ChevronsUpDownIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import { createContext, useContext } from "react";
@@ -88,13 +89,17 @@ export const PlanDescription = ({
   const { isStreaming } = usePlan();
 
   return (
-    <p
-      className={cn("text-balance text-muted-foreground text-sm", className)}
+    <Typography
+      className={cn("text-balance", className)}
+      color="text.secondary"
       data-slot="plan-description"
+      component="p"
+      sx={{ fontSize: 14 }}
+      variant="body2"
       {...props}
     >
       {isStreaming ? <Shimmer as="span">{children}</Shimmer> : children}
-    </p>
+    </Typography>
   );
 };
 

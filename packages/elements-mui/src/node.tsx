@@ -1,7 +1,14 @@
 import MuiCard from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 import { Handle, Position } from "@xyflow/react";
 import type { ComponentProps } from "react";
 import { cn } from "./ui/cn";
+
+const NodeSection = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.action.hover,
+  borderColor: theme.palette.divider,
+}));
 
 export type NodeProps = ComponentProps<typeof MuiCard> & {
   handles: {
@@ -28,8 +35,8 @@ export const Node = ({ handles, className, ...props }: NodeProps) => (
 export type NodeHeaderProps = ComponentProps<"div">;
 
 export const NodeHeader = ({ className, ...props }: NodeHeaderProps) => (
-  <div
-    className={cn("rounded-t-md border-b bg-secondary p-3", className)}
+  <NodeSection
+    className={cn("rounded-t-md border-b p-3", className)}
     {...props}
   />
 );
@@ -43,7 +50,13 @@ export const NodeTitle = ({ className, ...props }: NodeTitleProps) => (
 export type NodeDescriptionProps = ComponentProps<"p">;
 
 export const NodeDescription = (props: NodeDescriptionProps) => (
-  <p className="text-muted-foreground text-xs" {...props} />
+  <Typography
+    color="text.secondary"
+    component="p"
+    sx={{ fontSize: 12 }}
+    variant="caption"
+    {...props}
+  />
 );
 
 export type NodeActionProps = ComponentProps<"div">;
@@ -61,5 +74,5 @@ export const NodeContent = ({ className, ...props }: NodeContentProps) => (
 export type NodeFooterProps = ComponentProps<"div">;
 
 export const NodeFooter = ({ className, ...props }: NodeFooterProps) => (
-  <div className={cn("rounded-b-md border-t bg-secondary p-3", className)} {...props} />
+  <NodeSection className={cn("rounded-b-md border-t p-3", className)} {...props} />
 );
